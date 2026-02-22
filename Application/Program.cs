@@ -15,7 +15,7 @@ namespace Application
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
             // Providers
-            builder.Services.AddScoped(serviceProvider => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddScoped(httpClientProvider => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddScoped(mudThemeProvider => new MudThemeProvider());
 
             // JS Interop
