@@ -24,7 +24,6 @@ namespace Application
 
             // MudBlazor
             builder.Services.AddMudServices();
-
             await builder.Build().RunAsync();
         }
     }
