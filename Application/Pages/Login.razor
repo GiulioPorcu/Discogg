@@ -1,0 +1,30 @@
+﻿@page "/"
+@page "/login"
+@layout LoginLayout
+@inject NavigationManager Nav
+
+<MudContainer MaxWidth="MaxWidth.ExtraSmall" Class="d-flex justify-center mt-12 ">
+    <MudCard Class="pa-6 component" Style="width: 100%; ">
+        <MudText Typo="Typo.h5" Class="mb-4">
+            Login
+        </MudText>
+        <MudTextField @bind-Value="Username" Label="Username" Variant="Variant.Outlined" Required="true" Class="mb-3" />
+        <MudTextField @bind-Value="ApiToken" Label="API Token" Variant="Variant.Outlined" Required="true" InputType="InputType.Password" Class="mb-4" />
+        <MudButton Variant="Variant.Filled" Style="background: var(--primary);" OnClick="LoginAsync" FullWidth="true">
+            Login
+        </MudButton>
+
+    </MudCard>
+</MudContainer>
+
+@code {
+    private string Username { get; set; } = "";
+    private string ApiToken { get; set; } = "";
+
+    private async Task LoginAsync()
+    {
+        // TODO: validate credentials against your API
+        // If successful:
+        Nav.NavigateTo("/");
+    }
+}

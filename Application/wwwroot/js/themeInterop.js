@@ -1,39 +1,16 @@
 window.themeInterop = {
-    themeAttribute: 'theme',
+    themeAttribute: 'data-theme',
     darkTheme: 'dark',
     lightTheme: 'light',
-
-    /**
-     * Toggles between the light and dark theme by switching the value of the theme attribute.
-     */
-    toggleTheme: function () {
-        const html = document.documentElement;
-        const other = this.getCurrentTheme() === this.darkTheme ? this.lightTheme : this.darkTheme;
-        html.setAttribute(this.themeAttribute, other);
-        this.setCurrentTheme(other);
-    },
-
-    /**
-     * Applies the stored theme from localStorage to the document element, defaulting to light if none is stored.
-     */
-    applyStoredTheme: function () {
-        const html = document.documentElement;
-        const stored = this.getCurrentTheme();
-
-        if (stored) {
-            html.setAttribute(this.themeAttribute, stored);
-        } else {
-            this.setCurrentTheme(this.lightTheme);
-            this.applyStoredTheme();
-        }
-    },
 
     /**
      * Stores the given theme value in localStorage.
      *
      * @param {string} theme  The theme name to persist (e.g., "light" or "dark").
      */
-    setCurrentTheme: function (theme) {
+    setTheme: function (theme) {
+        const html = document.documentElement;
+        html.setAttribute(this.themeAttribute, theme);
         return localStorage.setItem(this.themeAttribute, theme);
     },
 
@@ -42,7 +19,7 @@ window.themeInterop = {
      *
      * @returns {string|null} The stored theme value or null if none exists.
      */
-    getCurrentTheme: function () {
+    getTheme: function () {
         return localStorage.getItem(this.themeAttribute);
     },
 
@@ -52,6 +29,6 @@ window.themeInterop = {
      * @returns {boolean} Whether the current theme is dark.
      */
     isDarkTheme: function () {
-        return this.getCurrentTheme() === this.darkTheme;
+        return this.getTheme() === this.darkTheme;
     }
 };

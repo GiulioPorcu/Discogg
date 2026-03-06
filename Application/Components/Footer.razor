@@ -1,0 +1,34 @@
+﻿@inject ThemeService ThemeService
+@inject LocalStorageService LocalStorageService
+
+<MudPaper Elevation="0" Class="pa-4 d-flex justify-space-between align-center component">
+    <MudText Typo="Typo.caption">
+        © @(DateTime.Now.Year) Giulio Porcu
+    </MudText>
+    <div class="d-flex align-center">
+        <MudIcon Icon="@Icons.Material.Filled.WbSunny" Class="mr-2" Style="@(IsDarkTheme ? "filter: invert(1);" : "")" />
+        <MudSwitch Color="Color.Primary" Class="mx-2" @bind-Value="IsDarkTheme" />
+        <MudIcon Icon="@Icons.Material.Filled.Bedtime" Class="ml-2" Style="@(IsDarkTheme ? "filter: invert(1);" : "")" />
+    </div>
+</MudPaper>
+
+@code {
+    private bool isDarkTheme;
+
+    public bool IsDarkTheme
+    {
+        get { return isDarkTheme; }
+        set { _ = SetThemeAsync(value); }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.IsDarkTheme = (await ThemeService.IsDarkThemeAsync());
+    }
+
+    private async Task SetThemeAsync(bool value)
+    {
+        isDarkTheme = value;
+        _ = ThemeService.SetThemeAsync(value ? "dark" : "light");
+    }
+}

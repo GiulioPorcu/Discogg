@@ -1,4 +1,4 @@
-using Application.Interop;
+using Application.src.Interop;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor;

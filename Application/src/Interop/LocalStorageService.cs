@@ -1,12 +1,12 @@
 ﻿using Microsoft.JSInterop;
 
-namespace Application.Interop;
+namespace Application.src.Interop;
 
 /// <summary>
 /// Provides access to browser localStorage operations through JavaScript interop.
 /// Supports both plain string storage and AES‑GCM encrypted storage.
 /// </summary>
-public class LocalStorageService(IJSRuntime _jsRuntime)
+public class LocalStorageService(IJSRuntime jsRuntime)
 {
     /// <summary>
     /// Stores a plain string value in localStorage under the specified key.
@@ -15,7 +15,7 @@ public class LocalStorageService(IJSRuntime _jsRuntime)
     /// <param name="value">The string value to save.</param>
     public ValueTask SetAsync(string key, string value)
     {
-        return _jsRuntime.InvokeVoidAsync("localStorageInterop.set", key, value);
+        return jsRuntime.InvokeVoidAsync("localStorageInterop.set", key, value);
     }
 
     /// <summary>
@@ -25,7 +25,7 @@ public class LocalStorageService(IJSRuntime _jsRuntime)
     /// <returns>The stored value, or null if the key does not exist.</returns>
     public ValueTask<string?> GetAsync(string key)
     {
-        return _jsRuntime.InvokeAsync<string?>("localStorageInterop.get", key);
+        return jsRuntime.InvokeAsync<string?>("localStorageInterop.get", key);
     }
 
     /// <summary>
@@ -35,7 +35,7 @@ public class LocalStorageService(IJSRuntime _jsRuntime)
     /// <param name="value">The plaintext string to encrypt and save.</param>
     public ValueTask SetEncryptedAsync(string key, string value)
     {
-        return _jsRuntime.InvokeVoidAsync("localStorageInterop.setEncrypted", key, value);
+        return jsRuntime.InvokeVoidAsync("localStorageInterop.setEncryptedAsync", key, value);
     }
 
     /// <summary>
@@ -45,6 +45,6 @@ public class LocalStorageService(IJSRuntime _jsRuntime)
     /// <returns>The decrypted plaintext string, or null if the key does not exist.</returns>
     public ValueTask<string?> GetEncryptedAsync(string key)
     {
-        return _jsRuntime.InvokeAsync<string?>("localStorageInterop.getEncrypted", key);
+        return jsRuntime.InvokeAsync<string?>("localStorageInterop.getEncryptedAsync", key);
     }
 }

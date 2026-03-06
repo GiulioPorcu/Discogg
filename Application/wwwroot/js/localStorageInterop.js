@@ -9,7 +9,7 @@ window.localStorageInterop = {
     _deviceInfo: navigator.userAgent + navigator.platform + navigator.vendor,
 
     // Derives a 256-bit AES-GCM key from the key name + device info
-    _deriveKey: async function (keyName) {
+    _deriveKeyAsync: async function (keyName) {
         const enc = new TextEncoder();
 
         const password = keyName + "|" + this._deviceInfo;
@@ -37,7 +37,7 @@ window.localStorageInterop = {
     },
 
     // Computes a SHA-256 integrity hash of the ciphertext
-    _computeIntegrity: async function (dataBytes) {
+    _computeIntegrityAsync: async function (dataBytes) {
         const hash = await crypto.subtle.digest("SHA-256", dataBytes);
         return Array.from(new Uint8Array(hash));
     },
@@ -48,11 +48,11 @@ window.localStorageInterop = {
      * @param {string} key    The localStorage key under which the encrypted data is stored.
      * @param {string} value  The plaintext string to encrypt and save.
      */
-    setEncrypted: async function (key, value) {
+    setEncryptedAsync: async function (key, value) {
         const enc = new TextEncoder();
         const data = enc.encode(value);
 
-        const aesKey = await this._deriveKey(key);
+        const aesKey = await this._deriveKeyAsync(key);
 
         const iv = crypto.getRandomValues(new Uint8Array(12));
         const encrypted = await crypto.subtle.encrypt(
@@ -64,7 +64,7 @@ window.localStorageInterop = {
         const encryptedBytes = new Uint8Array(encrypted);
 
         // Integrity protection
-        const integrity = await this._computeIntegrity(encryptedBytes);
+        const integrity = await this._computeIntegrityAsync(encryptedBytes);
 
         const stored = {
             v: this._version,
@@ -82,17 +82,17 @@ window.localStorageInterop = {
      * @param {string} key    The key containing the encrypted JSON payload.
      * @returns {string|null} The decrypted plaintext string or null if not found.
      */
-    getEncrypted: async function (key) {
+    getEncryptedAsync: async function (key) {
         const stored = JSON.parse(localStorage.getItem(key));
         if (!stored) return null;
 
-        const aesKey = await this._deriveKey(key);
+        const aesKey = await this._deriveKeyAsync(key);
 
         const iv = new Uint8Array(stored.iv);
         const data = new Uint8Array(stored.data);
 
         // Verify integrity
-        const integrityCheck = await this._computeIntegrity(data);
+        const integrityCheck = await this._computeIntegrityAsync(data);
         if (JSON.stringify(integrityCheck) !== JSON.stringify(stored.integrity)) {
             console.warn("localStorageInterop: integrity check failed");
             return null;
