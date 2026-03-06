@@ -1,7 +1,151 @@
-﻿html[theme='dark'] a, .btn-link {
+﻿/* -------------------------------------------------- */
+/* DARK THEME — GLOBAL BACKGROUND & TEXT              */
+/* -------------------------------------------------- */
+
+html[data-theme='dark'] body {
+    background: #1b1b1b;
+    background-image: linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 6px 6px;
+    color: #e6e6e6;
+}
+
+/* Headings */
+html[data-theme='dark'] h1,
+html[data-theme='dark'] h2,
+html[data-theme='dark'] h3,
+html[data-theme='dark'] h4,
+html[data-theme='dark'] h5,
+html[data-theme='dark'] h6 {
+    color: #ffffff;
+}
+
+/* Small / caption text */
+html[data-theme='dark'] .small-text,
+html[data-theme='dark'] .caption,
+html[data-theme='dark'] .mud-typography-caption {
+    color: #c8c8c8;
+}
+
+/* Links */
+html[data-theme='dark'] a,
+html[data-theme='dark'] .btn-link {
+    color: #7ab4ff;
+}
+
+/* -------------------------------------------------- */
+/* COMPONENT BACKGROUNDS                              */
+/* -------------------------------------------------- */
+
+html[data-theme='dark'] .component {
+    background-color: #2a2a2a;
+    border: 1px solid #333;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.6);
+}
+
+html[data-theme='dark'] .sidebar,
+html[data-theme='dark'] main,
+html[data-theme='dark'] .headerArea,
+html[data-theme='dark'] .footerArea {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid #333;
+}
+
+/* -------------------------------------------------- */
+/* CODE COLOR                                         */
+/* -------------------------------------------------- */
+
+html[data-theme='dark'] code {
+    color: #ff77c2;
+}
+
+/* -------------------------------------------------- */
+/* MUDTEXTFIELD — LABEL, TEXT, BORDER                 */
+/* -------------------------------------------------- */
+
+/* Floating label */
+html[data-theme='dark'] .mud-input-control-input-container .mud-input-label {
+    color: #aaa;
+}
+
+    /* Floating label when animated (moved up) */
+    html[data-theme='dark'] .mud-input-control-input-container .mud-input-label.mud-input-label-animated {
+        color: #ddd;
+    }
+
+/* Typed text */
+html[data-theme='dark'] .mud-input-slot {
+    color: #e6e6e6;
+    caret-color: #7ab4ff;
+}
+
+/* Buttons */
+html[data-theme='dark'] .mud-button-label {
+    color: #e6e6e6;
+    caret-color: #0057d8;
+}
+
+/* Outlined border */
+html[data-theme='dark'] .mud-input-root-outlined .mud-input-outlined-border {
+    border-color: #555;
+}
+
+html[data-theme='dark'] .mud-input-root-outlined.mud-focused .mud-input-outlined-border {
+    border-color: #7ab4ff;
+}
+
+/* -------------------------------------------------- */
+/* BUTTONS & FORMS                                    */
+/* -------------------------------------------------- */
+
+html[data-theme='dark'] .btn-primary {
+    background-color: #3a8be0;
+    border-color: #2f7ac7;
     color: #fff;
 }
 
-html[theme='dark'] .page {
-    background-color: #222;
+html[data-theme='dark'] .btn:focus,
+html[data-theme='dark'] .btn:active:focus,
+html[data-theme='dark'] .btn-link.nav-link:focus,
+html[data-theme='dark'] .form-control:focus,
+html[data-theme='dark'] .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem #222, 0 0 0 0.25rem #7ab4ff;
 }
+
+/* Validation */
+html[data-theme='dark'] .valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+html[data-theme='dark'] .invalid {
+    outline: 1px solid #ff4d4d;
+}
+
+html[data-theme='dark'] .validation-message {
+    color: #ff4d4d;
+}
+
+/* -------------------------------------------------- */
+/* ERROR UI                                           */
+/* -------------------------------------------------- */
+
+html[data-theme='dark'] #blazor-error-ui {
+    background: #442222;
+    color: #fff;
+}
+
+html[data-theme='dark'] .blazor-error-boundary {
+    background: #7a1a1a;
+    color: #fff;
+}
+
+/* -------------------------------------------------- */
+/* LOADING INDICATOR                                  */
+/* -------------------------------------------------- */
+
+html[data-theme='dark'] .loading-progress circle {
+    stroke: #555;
+}
+
+    html[data-theme='dark'] .loading-progress circle:last-child {
+        stroke: #7ab4ff;
+    }
