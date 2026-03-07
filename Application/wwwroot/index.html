@@ -1,37 +1,43 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" class="no-transitions">
 
 <head>
+    <script>
+        // Apply theme BEFORE CSS loads (prevents white flash)
+        const theme = localStorage.getItem("data-theme") || "light";
+        document.documentElement.setAttribute("data-theme", theme);
+    </script>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Discogg</title>
     <base href="/" />
+
+    <!-- CSS -->
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <link href="Application.styles.css" rel="stylesheet" />
     <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
 
-    <!-- Custom CSS-->
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/app.css" />
     <link rel="stylesheet" href="css/images.css" />
     <link rel="stylesheet" href="css/darkTheme.css" />
     <link rel="stylesheet" href="css/lightTheme.css" />
 
-    <!-- Custom Javascript files -->
+    <!-- JS -->
     <script src="js/themeInterop.js" defer></script>
     <script src="js/localStorageInterop.js" defer></script>
-    <script src="_framework/blazor.webassembly.js"></script>
+    <script src="_framework/blazor.webassembly.js" autostart="false"></script>
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
-
 </head>
 
 <body>
     <div id="app">
-        <svg class="loading-progress">
-            <circle r="40%" cx="50%" cy="50%" />
-            <circle r="40%" cx="50%" cy="50%" />
-        </svg>
-        <div class="loading-progress-text"></div>
+        <!-- Boot-time loader -->
+        <div id="loading-screen">
+            <img src="images/vinyl.png" class="vinyl-spin" id="vinyl-loader" />
+        </div>
     </div>
 
     <div id="blazor-error-ui">
@@ -42,3 +48,23 @@
 </body>
 
 </html>
+
+<script>
+    Blazor.start({
+        loadBootResource: (type, name, defaultUri, integrity) => defaultUri,
+        onProgress: (loaded, total) => {
+            if (loaded === total) {
+                setTimeout(() => {
+                    document.getElementById("loading-screen").style.opacity = "0";
+
+                    // Enable transitions after load
+                    document.documentElement.classList.remove("no-transitions");
+
+                    setTimeout(() => {
+                        document.getElementById("loading-screen").remove();
+                    }, 300);
+                }, 200);
+            }
+        }
+    });
+</script>

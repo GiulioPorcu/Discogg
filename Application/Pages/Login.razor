@@ -10,10 +10,9 @@
         </MudText>
         <MudTextField @bind-Value="Username" Label="Username" Variant="Variant.Outlined" Required="true" Class="mb-3" />
         <MudTextField @bind-Value="ApiToken" Label="API Token" Variant="Variant.Outlined" Required="true" InputType="InputType.Password" Class="mb-4" />
-        <MudButton Variant="Variant.Filled" Style="background: var(--primary);" OnClick="LoginAsync" FullWidth="true">
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="LoginAsync" FullWidth="true">
             Login
         </MudButton>
-
     </MudCard>
 </MudContainer>
 

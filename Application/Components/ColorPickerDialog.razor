@@ -1,0 +1,41 @@
+﻿@inject ThemeService ThemeService
+
+<MudDialog>
+    <DialogContent>
+        <div class="d-flex align-center">
+            <MudText>Theme Selection</MudText>
+
+            <MudSpacer />
+
+            <MudIcon Icon="@Icons.Material.Filled.WbSunny" Class="mr-2" />
+            <MudSwitch Color="Color.Primary" Class="mx-2" @bind-Value="ThemeService.IsDarkMode" />
+            <MudIcon Icon="@Icons.Material.Filled.Bedtime" Class="ml-2 mr-3" />
+        </div>
+        <MudColorPicker @bind-Text="ThemeService.PrimaryColor" ColorPickerMode="ColorPickerMode.RGB" PickerVariant="PickerVariant.Static"
+                        ShowToolbar="false" ShowAlpha="true" ShowColorField="true" ShowPreview="true"
+                        ShowSliders="true" ShowInputs="false" ShowModeSwitch="false" />
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OnDialogOK">
+            OK
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter]
+    private IMudDialogInstance? MudDialog { get; set; }
+
+    /// <summary>
+    /// Closes the dialog and persists the current theme settings.
+    /// </summary>
+    /// <remarks>
+    /// Invoked when the user confirms the theme selection. Persists theme values and returns a positive dialog result.
+    /// </remarks>
+    private void OnDialogOK()
+    {
+        MudDialog?.Close(DialogResult.Ok(true));
+    }
+}

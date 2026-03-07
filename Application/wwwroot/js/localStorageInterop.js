@@ -113,7 +113,7 @@ window.localStorageInterop = {
      * @param {string} key    The key under which the value is stored.
      * @param {string} value  The string value to save.
      */
-    set: async function (key, value) {
+    setAsync: async function (key, value) {
         localStorage.setItem(key, value);
     },
 
@@ -123,7 +123,7 @@ window.localStorageInterop = {
      * @param {string} key  The key whose stored value should be returned.
      * @returns {string|null} The stored value, or null if the key does not exist.
      */
-    get: async function (key) {
+    getAsync: async function (key) {
         return localStorage.getItem(key);
     }
 };

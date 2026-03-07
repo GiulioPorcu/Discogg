@@ -1,7 +1,4 @@
 ﻿@inherits LayoutComponentBase
-@inject ThemeService ThemeService
-@inject LocalStorageService LocalStorageService
-@using Application.Components
 
 <div class="page">
     <MudNavMenu class="sidebar">
@@ -17,9 +14,6 @@
         <article class="content px-4">
             @Body
         </article>
-
-    <!-- Footer -->
-    <Footer />
+        <Footer />
     </MudMainContent>
-
 </div>
