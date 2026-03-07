@@ -1,15 +1,78 @@
-:root {
-    --primary: #0f5c3c;
-    --primary-light: #1f7f55;
-    --primary-dark: #0a3f29;
-    --primary-hover: #176f49;
-    --primary-active: #0c4a31;
-    --primary-gradient: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
+/* -------------------------------------------------- */
+/* DISABLE TRANSITIONS DURING INITIAL LOAD            */
+/* -------------------------------------------------- */
+
+html.no-transitions *, html.no-transitions {
+    transition: none !important;
 }
 
+/* -------------------------------------------------- */
+/* BOOT LOADING SCREEN                                */
+/* -------------------------------------------------- */
+
+#loading-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    transition: opacity 0.3s ease;
+}
+
+html[data-theme="dark"] #loading-screen {
+    background: #121212;
+    color: white;
+}
+
+html[data-theme="light"] #loading-screen {
+    background: #ffffff;
+    color: black;
+}
 
 /* -------------------------------------------------- */
-/* GLOBAL TYPOGRAPHY                                  */
+/* IN-APP LOADING SCREEN                              */
+/* -------------------------------------------------- */
+
+.loading-screen-inapp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+/* -------------------------------------------------- */
+/* VINYL SPIN ANIMATION                               */
+/* -------------------------------------------------- */
+
+.vinyl-spin {
+    width: 140px;
+    height: 140px;
+    animation: vinylSpin 2.5s linear infinite;
+    transform-origin: center center;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.25));
+}
+
+@keyframes vinylSpin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Optional slow spin */
+.vinyl-spin-slow {
+    animation: vinylSpin 8s linear infinite;
+}
+
+/* Optional hover spin */
+.vinyl-hover-spin:hover {
+    animation: vinylSpin 1.5s linear infinite;
+}
+
+/* -------------------------------------------------- */
+/* GLOBAL TYPOGRAPHY, LAYOUT, NAV, FORMS, ERROR UI    */
 /* -------------------------------------------------- */
 
 html, body {
@@ -21,227 +84,31 @@ html, body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-weight: 600;
-    line-height: 1.25;
-    margin: 0 0 0.5rem 0;
-}
-
-h1 {
-    font-size: 2.2rem;
-}
-
-h2 {
-    font-size: 1.8rem;
-}
-
-h3 {
-    font-size: 1.5rem;
-}
-
-h4 {
-    font-size: 1.25rem;
-}
-
-h5 {
-    font-size: 1.1rem;
-}
-
-h6 {
-    font-size: 1rem;
-}
-
-h1:focus {
-    outline: none;
-}
-
-.small-text,
-.caption,
-label,
-button,
-input,
-textarea {
-    font-size: 0.875rem;
-    font-weight: 500;
-    letter-spacing: 0.2px;
-}
-
-code, pre {
-    font-family: "Fira Code", "JetBrains Mono", Consolas, monospace;
-    font-size: 0.9rem;
-}
-
-.mud-input-control-input-container .mud-input-label {
-    font-style: italic;
-}
-
-/* -------------------------------------------------- */
-/* LAYOUT STRUCTURE                                   */
-/* -------------------------------------------------- */
-
-.page {
-    display: flex;
-    padding: 20px;
-    height: 100vh;
-}
-
-.content {
-    margin: 16px;
-    height: max-content;
-    padding-top: 1.1rem;
-}
-
-.sidebar,
-main,
-.headerArea,
-.footerArea {
-    /* background + border moved to theme files */
-}
-
-.sidebar {
-    width: 250px;
-    margin-right: 15px;
-    height: max-content;
-    overflow: auto;
-}
-
-main {
-    flex: 1;
-    overflow: auto;
-    scrollbar-color: auto;
-}
-
-.headerArea,
-.footerArea {
-    display: flex;
-    align-items: center;
-}
-
-.headerArea {
-    height: 4rem;
-    justify-content: flex-end;
-}
-
-.footerArea {
-    height: 3rem;
-    justify-content: flex-end;
-}
-
-.headerArea > * {
-    padding-left: 20px;
-}
-
-/* -------------------------------------------------- */
-/* NAVIGATION                                         */
-/* -------------------------------------------------- */
-
-.navbar-brand {
-    font-size: 1.1rem;
-}
-
-.nav-item {
-    font-size: 0.9rem;
-    padding-bottom: 0.5rem;
-}
-
-    .nav-item:first-of-type {
-        padding-top: 1rem;
-    }
-
-    .nav-item:last-of-type {
-        padding-bottom: 1rem;
-    }
-
-.bi {
-    display: inline-block;
-    width: 1.25rem;
-    height: 1.25rem;
-    margin-right: 0.75rem;
-    position: relative;
-    top: -1px;
+body {
+    background-color: var(--mud-palette-background);
+    background-image:
+    /* center tint */
+    radial-gradient(circle at center, color-mix(in srgb, var(--mud-palette-background) 80%, var(--mud-palette-primary) 20% ) 0%, var(--mud-palette-background) 60% ),
+    /* vinyl grooves (default = light theme) */
+    repeating-radial-gradient( circle at center, color-mix(in srgb, var(--mud-palette-text-primary) 20%, transparent 80% ) 0px, color-mix(in srgb, var(--mud-palette-text-primary) 20%, transparent 80% ) 1px, transparent 1px, transparent 6px );
     background-size: cover;
+    background-attachment: fixed;
 }
 
-/* -------------------------------------------------- */
-/* FORMS & BUTTONS (colors moved to theme files)      */
-/* -------------------------------------------------- */
-
-.btn-primary {
+/* DARK THEME OVERRIDE */
+:root[data-theme="dark"] body {
+    background-image: radial-gradient(circle at center, color-mix(in srgb, var(--mud-palette-background) 80%, var(--mud-palette-primary) 20% ) 0%, var(--mud-palette-background) 60% ), repeating-radial-gradient( circle at center, color-mix(in srgb, var(--mud-palette-text-primary) 20%, transparent 80% ) 0px, color-mix(in srgb, var(--mud-palette-text-primary) 20%, transparent 80% ) 1px, transparent 1px, transparent 6px );
 }
 
-.btn:focus,
-.btn:active:focus,
-.btn-link.nav-link:focus,
-.form-control:focus,
-.form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem white;
+/* LIGHT THEME OVERRIDE */
+:root[data-theme="light"] body {
+    background-image: radial-gradient(circle at center, color-mix(in srgb, var(--mud-palette-background) 60%, var(--mud-palette-primary) 40% ) 0%, var(--mud-palette-background) 60% ), repeating-radial-gradient( circle at center, color-mix(in srgb, var(--mud-palette-text-primary) 20%, transparent 80% ) 0px, color-mix(in srgb, var(--mud-palette-text-primary) 20%, transparent 80% ) 1px, transparent 1px, transparent 6px );
 }
 
-.valid.modified:not([type=checkbox]) {
+.footer-fab {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+    font-size: 16px !important;
 }
-
-.invalid {
-}
-
-.validation-message {
-}
-
-/* -------------------------------------------------- */
-/* ERROR UI (colors moved to theme files)             */
-/* -------------------------------------------------- */
-
-#blazor-error-ui {
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 0.6rem 1.25rem 0.7rem;
-    position: fixed;
-    display: none;
-    z-index: 1000;
-    box-shadow: 0 -1px 2px rgba(0,0,0,0.2);
-}
-
-    #blazor-error-ui .dismiss {
-        cursor: pointer;
-        position: absolute;
-        right: 0.75rem;
-        top: 0.5rem;
-    }
-
-.blazor-error-boundary {
-    padding: 1rem 1rem 1rem 3.7rem;
-}
-
-    .blazor-error-boundary::after {
-        content: "An error has occurred.";
-    }
-
-/* -------------------------------------------------- */
-/* LOADING INDICATOR (colors moved to theme files)    */
-/* -------------------------------------------------- */
-
-.loading-progress {
-    position: relative;
-    display: block;
-    width: 8rem;
-    height: 8rem;
-    margin: 20vh auto 1rem;
-}
-
-    .loading-progress circle {
-        fill: none;
-        stroke-width: 0.6rem;
-        transform-origin: 50% 50%;
-        transform: rotate(-90deg);
-    }
-
-.loading-progress-text {
-    position: absolute;
-    text-align: center;
-    font-weight: bold;
-    inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
-}
-
-    .loading-progress-text:after {
-        content: var(--blazor-load-percentage-text, "Loading");
-    }
