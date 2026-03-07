@@ -1,4 +1,5 @@
-window.localStorageInterop = {
+window.discogg ??= {};
+window.discogg.localStorage = {
     // Internal fixed salt for PBKDF2 key derivation
     _salt: "local-storage-fixed-salt",
 
@@ -77,7 +78,7 @@ window.localStorageInterop = {
     },
 
     /**
-     * Retrieves an encrypted payload from localStorage and decrypts it using AES‑GCM.
+     * Retrieves a decrypted payload from localStorage and decrypts it using AES‑GCM.
      *
      * @param {string} key    The key containing the encrypted JSON payload.
      * @returns {string|null} The decrypted plaintext string or null if not found.
@@ -130,7 +131,7 @@ window.localStorageInterop = {
     /**
      * Removes the given key from localStorage.
      *
-     * @param {string} key  The key whose stored value should be returned.
+     * @param {string} key  The key that should be removed.
      */
     removeAsync: async function (key) {
         return localStorage.removeItem(key);

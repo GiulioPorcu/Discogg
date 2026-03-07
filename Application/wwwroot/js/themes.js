@@ -1,7 +1,7 @@
-window.themeInterop = {
+window.discogg ??= {};
+window.discogg.themes = {
     themeAttribute: 'data-theme',
     darkTheme: 'dark',
-    lightTheme: 'light',
 
     /**
      * Stores the given theme value in localStorage.
@@ -9,8 +9,6 @@ window.themeInterop = {
      * @param {string} theme  The theme name to persist (e.g., "light" or "dark").
      */
     setTheme: function (theme) {
-        const html = document.documentElement;
-        html.setAttribute(this.themeAttribute, theme);
         return localStorage.setItem(this.themeAttribute, theme);
     },
 

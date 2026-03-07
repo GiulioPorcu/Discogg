@@ -12,7 +12,7 @@
             <MudIcon Icon="@Icons.Material.Filled.Bedtime" Class="ml-2 mr-3" />
         </div>
         <MudColorPicker @bind-Text="ThemeService.PrimaryColor" ColorPickerMode="ColorPickerMode.RGB" PickerVariant="PickerVariant.Static"
-                        ShowToolbar="false" ShowAlpha="true" ShowColorField="true" ShowPreview="true"
+                        ShowToolbar="false" ShowAlpha="false" ShowColorField="true" ShowPreview="true"
                         ShowSliders="true" ShowInputs="false" ShowModeSwitch="false" />
     </DialogContent>
 
@@ -29,11 +29,8 @@
     private IMudDialogInstance? MudDialog { get; set; }
 
     /// <summary>
-    /// Closes the dialog and persists the current theme settings.
+    /// Closes the dialog.
     /// </summary>
-    /// <remarks>
-    /// Invoked when the user confirms the theme selection. Persists theme values and returns a positive dialog result.
-    /// </remarks>
     private void OnDialogOK()
     {
         MudDialog?.Close(DialogResult.Ok(true));

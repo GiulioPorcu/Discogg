@@ -7,9 +7,6 @@ namespace Application.Services
     /// <summary>
     /// Manages theme state, including dark mode and primary color, with persistence through local storage.
     /// </summary>
-    /// <remarks>
-    /// Updates derived palette colors when the primary color changes and notifies subscribers of theme updates.
-    /// </remarks>
     public class ThemeService(LocalStorageService localStorage)
     {
         /// <summary>
@@ -80,9 +77,6 @@ namespace Application.Services
         /// <summary>
         /// Gets or sets the primary color used by the theme.
         /// </summary>
-        /// <remarks>
-        /// Setting this value recalculates derived palette colors and triggers a theme update notification.
-        /// </remarks>
         public string PrimaryColor
         {
             get
@@ -104,9 +98,6 @@ namespace Application.Services
         /// <summary>
         /// Gets or sets a value indicating whether dark mode is active.
         /// </summary>
-        /// <remarks>
-        /// Changing this value triggers a theme update notification.
-        /// </remarks>
         public bool IsDarkMode
         {
             get
@@ -196,7 +187,7 @@ namespace Application.Services
         }
 
         /// <summary>
-        /// Persists theme settings to local storage without awaiting completion.
+        /// Persists theme settings to local storage.
         /// </summary>
         public void Persist()
         {

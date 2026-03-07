@@ -18,7 +18,7 @@ namespace Application.Services
         /// <returns>A task representing the asynchronous operation.</returns>
         public ValueTask SetAsync(string key, string value)
         {
-            return jsRuntime.InvokeVoidAsync("localStorageInterop.setAsync", key, value);
+            return jsRuntime.InvokeVoidAsync("discogg.localStorage.setAsync", key, value);
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace Application.Services
         /// <returns>The stored value, or null if not found.</returns>
         public ValueTask<string?> GetAsync(string key)
         {
-            return jsRuntime.InvokeAsync<string?>("localStorageInterop.getAsync", key);
+            return jsRuntime.InvokeAsync<string?>("discogg.localStorage.getAsync", key);
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Application.Services
         /// <returns>A task representing the asynchronous operation.</returns>
         public ValueTask SetEncryptedAsync(string key, string value)
         {
-            return jsRuntime.InvokeVoidAsync("localStorageInterop.setEncryptedAsync", key, value);
+            return jsRuntime.InvokeVoidAsync("discogg.localStorage.setEncryptedAsync", key, value);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Application.Services
         /// <returns>The decrypted value, or null if not found.</returns>
         public ValueTask<string?> GetDecryptedAsync(string key)
         {
-            return jsRuntime.InvokeAsync<string?>("localStorageInterop.getDecryptedAsync", key);
+            return jsRuntime.InvokeAsync<string?>("discogg.localStorage.getDecryptedAsync", key);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Application.Services
         /// <param name="key">The storage key.</param>
         public ValueTask<string?> RemoveAsync(string key)
         {
-            return jsRuntime.InvokeAsync<string?>("localStorageInterop.removeAsync", key);
+            return jsRuntime.InvokeAsync<string?>("discogg.localStorage.removeAsync", key);
         }
     }
 }

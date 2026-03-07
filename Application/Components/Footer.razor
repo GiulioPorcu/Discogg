@@ -1,31 +1,41 @@
 ﻿@inject ThemeService ThemeService
 @inject IDialogService DialogService
+@inject NavigationManager NavigationManager
 
 <MudPaper Elevation="0" Class="pa-4 d-flex justify-space-between align-center component">
-
     <MudText Typo="Typo.caption">
-        © @(DateTime.Now.Year) Giulio Porcu
+        © @(DateTime.Now.Year) | Giulio Porcu
     </MudText>
-    <MudButton
-               Variant="Variant.Text"
-               Size="Size.Small"
-               Class="footer-fab"
-               OnClick="@OpenColorPickerAsync">
-        <MudIcon Icon="@Icons.Material.Filled.Palette" />
-    </MudButton>
+    <div class="d-flex align-center">
+        <MudButton Variant="Variant.Text" Size="Size.Small" Class="footer-button" OnClick="@OpenAboutPageAsync">
+            <MudTooltip Text="About" Color="Color.Primary" Delay="100">
+                <MudIcon Icon="@Icons.Material.Filled.Person" />
+            </MudTooltip>
+        </MudButton>
+        <MudButton Variant="Variant.Text" Size="Size.Small" Class="footer-button" OnClick="@OpenColorPickerAsync">
+            <MudTooltip Text="Theme Settings" Color="Color.Primary" Delay="100">
+                <MudIcon Icon="@Icons.Material.Filled.Palette" />
+            </MudTooltip>
+        </MudButton>
+    </div>
 </MudPaper>
 
 @code {
     /// <summary>
-    /// Opens the theme color picker dialog.
+    /// Opens the theme color picker dialog and persist selection afterwards.
     /// </summary>
-    /// <remarks>
-    /// Displays the color picker dialog to allow the user to modify theme settings.
-    /// </remarks>
     private async Task OpenColorPickerAsync()
     {
         IDialogReference dialog = await DialogService.ShowAsync<ColorPickerDialog>();
         await dialog.Result;
         await ThemeService.PersistAsync();
+    }
+
+    /// <summary>
+    /// Navigates to the About page.
+    /// </summary>
+    private async Task OpenAboutPageAsync()
+    {
+        this.NavigationManager.NavigateTo("/about");
     }
 }
