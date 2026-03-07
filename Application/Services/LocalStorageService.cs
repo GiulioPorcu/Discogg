@@ -47,9 +47,18 @@ namespace Application.Services
         /// </summary>
         /// <param name="key">The storage key.</param>
         /// <returns>The decrypted value, or null if not found.</returns>
-        public ValueTask<string?> GetEncryptedAsync(string key)
+        public ValueTask<string?> GetDecryptedAsync(string key)
         {
-            return jsRuntime.InvokeAsync<string?>("localStorageInterop.getEncryptedAsync", key);
+            return jsRuntime.InvokeAsync<string?>("localStorageInterop.getDecryptedAsync", key);
+        }
+
+        /// <summary>
+        /// Removes the given key from local storage.
+        /// </summary>
+        /// <param name="key">The storage key.</param>
+        public ValueTask<string?> RemoveAsync(string key)
+        {
+            return jsRuntime.InvokeAsync<string?>("localStorageInterop.removeAsync", key);
         }
     }
 }

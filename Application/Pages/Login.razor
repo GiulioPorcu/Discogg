@@ -1,15 +1,29 @@
 ﻿@page "/"
 @page "/login"
+@using System.Security
+
 @layout LoginLayout
-@inject NavigationManager Nav
+
+@inject NavigationManager NavigationManager
+@inject AuthenticationService AuthenticationService
+@inject LocalStorageService LocalStorageService
+@inject ISnackbar Snackbar
 
 <MudContainer MaxWidth="MaxWidth.ExtraSmall" Class="d-flex justify-center mt-12 ">
     <MudCard Class="pa-6 component" Style="width: 100%; ">
         <MudText Typo="Typo.h5" Class="mb-4">
             Login
         </MudText>
-        <MudTextField @bind-Value="Username" Label="Username" Variant="Variant.Outlined" Required="true" Class="mb-3" />
-        <MudTextField @bind-Value="ApiToken" Label="API Token" Variant="Variant.Outlined" Required="true" InputType="InputType.Password" Class="mb-4" />
+        <MudTextField @bind-Value="Token"
+                      Label="API Token"
+                      Variant="Variant.Outlined"
+                      InputType="@(ShowPassword? InputType.Text: InputType.Password)"
+                      Class="mb-4"
+                      Adornment="Adornment.End"
+                      AdornmentIcon="@(ShowPassword? Icons.Material.Filled.VisibilityOff : Icons.Material.Filled.Visibility)"
+                      OnAdornmentClick="TogglePasswordVisibility"
+                      IconSize="Size.Medium" />
+        <MudCheckBox T="bool" Label="Remember Token" Class="mb-4" @bind-Value="this.RememberMe" Color="Color.Primary" />
         <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="LoginAsync" FullWidth="true">
             Login
         </MudButton>
@@ -17,13 +31,56 @@
 </MudContainer>
 
 @code {
-    private string Username { get; set; } = "";
-    private string ApiToken { get; set; } = "";
+    private const string REMEMBER_TOKEN_KEY = "remember-token";
+    private const string TOKEN_KEY = "token";
+    private const string REMEMBER_TOKEN_TRUTHY = "T";
+
+    private string? Token { get; set; }
+    private bool RememberMe { get; set; }
+    private bool ShowPassword { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        this.RememberMe = await LocalStorageService.GetAsync(REMEMBER_TOKEN_KEY) == REMEMBER_TOKEN_TRUTHY;
+
+        if (this.RememberMe && await LocalStorageService.GetDecryptedAsync(TOKEN_KEY) is string token)
+        {
+            this.Token = token;
+        }
+    }
+
+    private void TogglePasswordVisibility()
+    {
+        this.ShowPassword = !this.ShowPassword;
+    }
+
 
     private async Task LoginAsync()
     {
-        // TODO: validate credentials against your API
-        // If successful:
-        Nav.NavigateTo("/");
+        if (string.IsNullOrWhiteSpace(this.Token))
+        {
+            this.Snackbar.Add("Please apply a valid API token.", Severity.Error);
+            return;
+        }
+
+        this.Snackbar.Add("Login successful, hello!", Severity.Info);
+
+        if (this.RememberMe)
+        {
+            await this.LocalStorageService.SetAsync(REMEMBER_TOKEN_KEY, REMEMBER_TOKEN_TRUTHY);
+            await this.LocalStorageService.SetEncryptedAsync(TOKEN_KEY, this.Token ?? string.Empty);
+
+            this.Snackbar.Add("Remembering token...", Severity.Info);
+        }
+        else
+        {
+            await LocalStorageService.RemoveAsync(REMEMBER_TOKEN_KEY);
+            await LocalStorageService.RemoveAsync(TOKEN_KEY);
+
+            this.Snackbar.Add("Removing token...", Severity.Info);
+        }
+
+        AuthenticationService.Token = this.Token!;
+        NavigationManager.NavigateTo("/");
     }
 }

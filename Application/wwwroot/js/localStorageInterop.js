@@ -82,7 +82,7 @@ window.localStorageInterop = {
      * @param {string} key    The key containing the encrypted JSON payload.
      * @returns {string|null} The decrypted plaintext string or null if not found.
      */
-    getEncryptedAsync: async function (key) {
+    getDecryptedAsync: async function (key) {
         const stored = JSON.parse(localStorage.getItem(key));
         if (!stored) return null;
 
@@ -125,5 +125,14 @@ window.localStorageInterop = {
      */
     getAsync: async function (key) {
         return localStorage.getItem(key);
+    },
+
+    /**
+     * Removes the given key from localStorage.
+     *
+     * @param {string} key  The key whose stored value should be returned.
+     */
+    removeAsync: async function (key) {
+        return localStorage.removeItem(key);
     }
 };
