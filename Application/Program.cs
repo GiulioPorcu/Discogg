@@ -21,7 +21,7 @@ namespace Application
             // JS Interop
             builder.Services.AddScoped<LocalStorageService>();
             builder.Services.AddScoped<ThemeService>();
-            builder.Services.AddScoped<AuthenticationService>();
+            builder.Services.AddScoped<DiscogsClient>();
 
             // MudBlazor
             builder.Services.AddMudServices(config =>

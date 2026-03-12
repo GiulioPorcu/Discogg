@@ -5,7 +5,7 @@
 @layout LoginLayout
 
 @inject NavigationManager NavigationManager
-@inject AuthenticationService AuthenticationService
+@inject DiscogsClient DiscogsClient
 @inject LocalStorageService LocalStorageService
 @inject ISnackbar Snackbar
 
@@ -15,7 +15,7 @@
             Login
         </MudText>
         <MudTextField @bind-Value="Token"
-                      Label="API Token"
+                      Label="@(Messages.ApiToken)"
                       Variant="Variant.Outlined"
                       InputType="@(ShowPassword? InputType.Text: InputType.Password)"
                       Class="mb-4"
@@ -59,28 +59,31 @@
     {
         if (string.IsNullOrWhiteSpace(this.Token))
         {
-            this.Snackbar.Add("Please apply a valid API token.", Severity.Error);
+            this.Snackbar.Add(Messages.InvalidApiToken, Severity.Error);
             return;
         }
-
-        this.Snackbar.Add("Login successful, hello!", Severity.Info);
 
         if (this.RememberMe)
         {
             await this.LocalStorageService.SetAsync(REMEMBER_TOKEN_KEY, REMEMBER_TOKEN_TRUTHY);
             await this.LocalStorageService.SetEncryptedAsync(TOKEN_KEY, this.Token ?? string.Empty);
-
-            this.Snackbar.Add("Remembering token...", Severity.Info);
         }
         else
         {
-            await LocalStorageService.RemoveAsync(REMEMBER_TOKEN_KEY);
-            await LocalStorageService.RemoveAsync(TOKEN_KEY);
-
-            this.Snackbar.Add("Removing token...", Severity.Info);
+            await this.LocalStorageService.RemoveAsync(REMEMBER_TOKEN_KEY);
+            await this.LocalStorageService.RemoveAsync(TOKEN_KEY);
         }
 
-        AuthenticationService.Token = this.Token!;
-        NavigationManager.NavigateTo("/");
+        this.DiscogsClient.Token = this.Token!;
+
+        if (await this.DiscogsClient.Authenticate())
+        {
+            this.Snackbar.Add(Messages.AuthenticationSuccessful, Severity.Success);
+            // this.NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            this.Snackbar.Add(Messages.FailedToAuthenticate, Severity.Error);
+        }
     }
 }
