@@ -1,14 +1,6 @@
-/* -------------------------------------------------- */
-/* DISABLE TRANSITIONS DURING INITIAL LOAD            */
-/* -------------------------------------------------- */
-
 html.no-transitions *, html.no-transitions {
     transition: none !important;
 }
-
-/* -------------------------------------------------- */
-/* BOOT LOADING SCREEN                                */
-/* -------------------------------------------------- */
 
 #loading-screen {
     display: flex;
@@ -17,6 +9,12 @@ html.no-transitions *, html.no-transitions {
     height: 100vh;
     transition: opacity 0.3s ease;
 }
+
+.paper-glass {
+    background-color: transparent !important;
+}
+
+
 
 html[data-theme="dark"] #loading-screen {
     background: #121212;
@@ -28,20 +26,12 @@ html[data-theme="light"] #loading-screen {
     color: black;
 }
 
-/* -------------------------------------------------- */
-/* IN-APP LOADING SCREEN                              */
-/* -------------------------------------------------- */
-
 .loading-screen-inapp {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 40px;
 }
-
-/* -------------------------------------------------- */
-/* VINYL SPIN ANIMATION                               */
-/* -------------------------------------------------- */
 
 .vinyl-spin {
     width: 140px;
@@ -70,10 +60,6 @@ html[data-theme="light"] #loading-screen {
 .vinyl-hover-spin:hover {
     animation: vinylSpin 1.5s linear infinite;
 }
-
-/* -------------------------------------------------- */
-/* GLOBAL TYPOGRAPHY, LAYOUT, NAV, FORMS, ERROR UI    */
-/* -------------------------------------------------- */
 
 html, body {
     font-family: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
