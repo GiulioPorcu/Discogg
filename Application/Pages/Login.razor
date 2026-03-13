@@ -5,9 +5,14 @@
 @layout LoginLayout
 
 @inject NavigationManager NavigationManager
+@inject LoadingService LoadingService
 @inject DiscogsClient DiscogsClient
 @inject LocalStorageService LocalStorageService
 @inject ISnackbar Snackbar
+
+<MudOverlay Visible="LoadingService.IsLoading" DarkBackground="true">
+    <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+</MudOverlay>
 
 <MudContainer MaxWidth="MaxWidth.ExtraSmall" Class="d-flex justify-center mt-12 ">
     <MudCard Class="pa-6 component" Style="width: 100%; ">
@@ -35,6 +40,7 @@
     private const string TOKEN_KEY = "token";
     private const string REMEMBER_TOKEN_TRUTHY = "T";
 
+
     private string? Token { get; set; }
     private bool RememberMe { get; set; }
     private bool ShowPassword { get; set; }
@@ -47,6 +53,9 @@
         {
             this.Token = token;
         }
+
+        this.LoadingService.OnChanged += StateHasChanged;
+
     }
 
     private void TogglePasswordVisibility()
@@ -74,11 +83,9 @@
             await this.LocalStorageService.RemoveAsync(TOKEN_KEY);
         }
 
-        this.DiscogsClient.Token = this.Token!;
-
-        if (await this.DiscogsClient.Authenticate())
+        if (await this.DiscogsClient.AuthenticateAsync(this.Token ?? string.Empty))
         {
-            this.Snackbar.Add(Messages.AuthenticationSuccessful, Severity.Success);
+            this.Snackbar.Add($"Hello {this.DiscogsClient.User?.UserName ?? "N/A"}", Severity.Success);
             // this.NavigationManager.NavigateTo("/");
         }
         else

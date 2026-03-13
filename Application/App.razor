@@ -30,18 +30,18 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        await ThemeService.InitializeAsync();
-        _initialized = true;
+        await this.ThemeService.InitializeAsync();
+        this._initialized = true;
     }
 
 
     protected override void OnInitialized()
     {
-        ThemeService.OnThemeChange += StateHasChanged;
+        this.ThemeService.OnThemeChange += StateHasChanged;
     }
 
     public void Dispose()
     {
-        ThemeService.OnThemeChange -= StateHasChanged;
+        this.ThemeService.OnThemeChange -= StateHasChanged;
     }
 }
