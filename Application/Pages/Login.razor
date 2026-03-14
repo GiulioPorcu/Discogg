@@ -55,6 +55,11 @@
         }
 
         this.LoadingService.OnChanged += StateHasChanged;
+
+        this.DiscogsClient.OnError += (sender, args) =>
+        {
+            this.Snackbar.Add(args, Severity.Error);
+        };
     }
 
     private void TogglePasswordVisibility()

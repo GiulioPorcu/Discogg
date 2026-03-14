@@ -17,12 +17,6 @@
             this.OnChanged?.Invoke();
         }
 
-        public bool IsLoading
-        {
-            get
-            {
-                return this.Counter > 0;
-            }
-        }
+        public bool IsLoading => this.Counter > 0;
     }
 }

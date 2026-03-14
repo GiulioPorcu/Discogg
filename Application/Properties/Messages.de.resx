@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="About" xml:space="preserve">
+    <value>Über</value>
+  </data>
   <data name="ApiToken" xml:space="preserve">
     <value>API-Token</value>
   </data>
@@ -129,7 +132,19 @@
   <data name="InvalidApiToken" xml:space="preserve">
     <value>Der API-Token ist ungültig...</value>
   </data>
+  <data name="LoggedInAs" xml:space="preserve">
+    <value>Angemeldet als</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
   <data name="RememberToken" xml:space="preserve">
     <value>Token merken</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Design</value>
+  </data>
+  <data name="ThemeSelection" xml:space="preserve">
+    <value>Designwahl</value>
   </data>
 </root>

@@ -1,8 +1,10 @@
 ﻿@inject ThemeService ThemeService
 
-@if (!_initialized)
+@if (!this._initialized)
 {
-    <LoadingScreen />
+    <div class="loading-screen-inapp">
+        <img src="images/vinyl.png" class="vinyl-spin" />
+    </div>
 }
 else
 {

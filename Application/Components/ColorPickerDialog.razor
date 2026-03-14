@@ -3,7 +3,7 @@
 <MudDialog>
     <DialogContent>
         <div class="d-flex align-center">
-            <MudText>Theme Selection</MudText>
+            <MudText>@(Messages.ThemeSelection)</MudText>
 
             <MudSpacer />
 
@@ -18,7 +18,7 @@
 
     <DialogActions>
         <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OnDialogOK">
-            OK
+            @(Messages.OK)
         </MudButton>
     </DialogActions>
 </MudDialog>
@@ -33,6 +33,6 @@
     /// </summary>
     private void OnDialogOK()
     {
-        MudDialog?.Close(DialogResult.Ok(true));
+        this.MudDialog?.Close(DialogResult.Ok(true));
     }
 }

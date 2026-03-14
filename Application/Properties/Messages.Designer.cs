@@ -61,6 +61,15 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        internal static string About {
+            get {
+                return ResourceManager.GetString("About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to API Token.
         /// </summary>
         internal static string ApiToken {
@@ -97,11 +106,47 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Logged in as.
+        /// </summary>
+        internal static string LoggedInAs {
+            get {
+                return ResourceManager.GetString("LoggedInAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        internal static string OK {
+            get {
+                return ResourceManager.GetString("OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remember Token.
         /// </summary>
         internal static string RememberToken {
             get {
                 return ResourceManager.GetString("RememberToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Theme.
+        /// </summary>
+        internal static string Theme {
+            get {
+                return ResourceManager.GetString("Theme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Theme Selection.
+        /// </summary>
+        internal static string ThemeSelection {
+            get {
+                return ResourceManager.GetString("ThemeSelection", resourceCulture);
             }
         }
     }

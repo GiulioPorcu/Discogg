@@ -45,33 +45,34 @@ namespace Application.Services
             PaletteLight light = this.CurrentTheme.PaletteLight;
             PaletteDark dark = this.CurrentTheme.PaletteDark;
 
-            string baseRgba = baseColor.ToRgba();
+            if (baseColor?.ToRgba() is string baseRgba)
+            {
+                light.Primary = baseRgba;
+                light.PrimaryLighten = baseColor.ColorLighten(0.20f).ToRgba()!;
+                light.PrimaryDarken = baseColor.ColorDarken(0.20f).ToRgba()!;
 
-            light.Primary = baseRgba;
-            light.PrimaryLighten = baseColor.ColorLighten(0.20f).ToRgba();
-            light.PrimaryDarken = baseColor.ColorDarken(0.20f).ToRgba();
+                light.Secondary = baseColor.ColorLighten(0.15f);
+                light.Info = baseColor.ColorLighten(0.25f);
+                light.Success = baseColor.ColorDarken(0.15f);
+                light.Warning = baseColor.ColorLighten(0.10f);
+                light.Error = baseColor.ColorDarken(0.30f);
 
-            light.Secondary = baseColor.ColorLighten(0.15f);
-            light.Info = baseColor.ColorLighten(0.25f);
-            light.Success = baseColor.ColorDarken(0.15f);
-            light.Warning = baseColor.ColorLighten(0.10f);
-            light.Error = baseColor.ColorDarken(0.30f);
+                light.AppbarBackground = baseColor.ColorDarken(0.40f);
+                light.DrawerBackground = baseColor.ColorDarken(0.50f);
 
-            light.AppbarBackground = baseColor.ColorDarken(0.40f);
-            light.DrawerBackground = baseColor.ColorDarken(0.50f);
+                dark.Primary = baseRgba;
+                dark.PrimaryLighten = baseColor.ColorLighten(0.25f).ToRgba()!;
+                dark.PrimaryDarken = baseColor.ColorDarken(0.25f).ToRgba()!;
 
-            dark.Primary = baseRgba;
-            dark.PrimaryLighten = baseColor.ColorLighten(0.25f).ToRgba();
-            dark.PrimaryDarken = baseColor.ColorDarken(0.25f).ToRgba();
+                dark.Secondary = baseColor.ColorLighten(0.20f);
+                dark.Info = baseColor.ColorLighten(0.30f);
+                dark.Success = baseColor.ColorDarken(0.10f);
+                dark.Warning = baseColor.ColorLighten(0.15f);
+                dark.Error = baseColor.ColorDarken(0.35f);
 
-            dark.Secondary = baseColor.ColorLighten(0.20f);
-            dark.Info = baseColor.ColorLighten(0.30f);
-            dark.Success = baseColor.ColorDarken(0.10f);
-            dark.Warning = baseColor.ColorLighten(0.15f);
-            dark.Error = baseColor.ColorDarken(0.35f);
-
-            dark.AppbarBackground = baseColor.ColorDarken(0.60f);
-            dark.DrawerBackground = baseColor.ColorDarken(0.70f);
+                dark.AppbarBackground = baseColor.ColorDarken(0.60f);
+                dark.DrawerBackground = baseColor.ColorDarken(0.70f);
+            }
         }
 
         /// <summary>
@@ -79,11 +80,7 @@ namespace Application.Services
         /// </summary>
         public string PrimaryColor
         {
-            get
-            {
-                return this.CurrentTheme.PaletteLight.Primary.ToString();
-            }
-
+            get => this.CurrentTheme.PaletteLight.Primary.ToString();
             set
             {
                 MudColor? mudColor = MudColor.TryParse(value, out MudColor? parsed) && parsed != null
@@ -100,11 +97,7 @@ namespace Application.Services
         /// </summary>
         public bool IsDarkMode
         {
-            get
-            {
-                return this._isDarkMode;
-            }
-
+            get => this._isDarkMode;
             set
             {
                 this._isDarkMode = value;
@@ -189,10 +182,7 @@ namespace Application.Services
         /// <summary>
         /// Persists theme settings to local storage.
         /// </summary>
-        public void Persist()
-        {
-            this.PersistAsync().FireAndForget();
-        }
+        public void Persist() => this.PersistAsync().FireAndForget();
 
         /// <summary>
         /// Persists theme settings to local storage.
@@ -207,9 +197,6 @@ namespace Application.Services
         /// <summary>
         /// Notifies subscribers that theme state has changed.
         /// </summary>
-        private void NotifyStateChanged()
-        {
-            OnThemeChange?.Invoke();
-        }
+        private void NotifyStateChanged() => this.OnThemeChange?.Invoke();
     }
 }

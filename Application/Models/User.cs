@@ -2,7 +2,7 @@
 
 namespace Application.Models
 {
-    public class Identity
+    public class User
     {
         [JsonPropertyName("id")]
         public int? Id { get; set; }
@@ -15,6 +15,9 @@ namespace Application.Models
 
         [JsonPropertyName("consumer_name")]
         public string? ConsumerName { get; set; }
+
+        [JsonIgnore]
+        public UserDetails? Details { get; set; }
 
         [JsonIgnore]
         public string? Token { get; set; }

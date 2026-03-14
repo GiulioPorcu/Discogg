@@ -4,23 +4,39 @@
 @inject NavigationManager NavigationManager
 
 <MudPaper Elevation="0" Class="pa-4 d-flex justify-space-between align-center component paper-glass">
-    <MudText Typo="Typo.caption">
-        © @(DateTime.Now.Year) | Giulio Porcu
-    </MudText>
+    <MudStack Direction="Column" Spacing="0">
+        <MudText Typo="Typo.caption">
+            © @(DateTime.Now.Year) | Giulio Porcu
+        </MudText>
+        @if (DiscogsClient.IsConnected)
+        {
+            <MudText Typo="Typo.caption">
+                <MudIcon Icon="@Icons.Material.Filled.Circle" Size="Size.Small" Style="color: #146617;" />
+                Discogs API @(DiscogsClient.Info!.ApiVersion)
+            </MudText>
+        }
+        else
+        {
+            <MudText Typo="Typo.caption">
+                <MudIcon Icon="@Icons.Material.Filled.Circle" Size="Size.Small" Style="color: #c10000;" />
+                Discogs API ?
+            </MudText>
+        }
+    </MudStack>
     @if (this.DiscogsClient.IsAuthenticated)
     {
         <MudText Typo="Typo.caption">
-            Logged in as: @(this.DiscogsClient!.User!.UserName)
+            @(Messages.LoggedInAs): @(this.DiscogsClient!.User!.UserName)
         </MudText>
     }
     <div class="d-flex align-center">
         <MudButton Variant="Variant.Text" Size="Size.Small" Class="footer-button" OnClick="@OpenAboutPageAsync">
-            <MudTooltip Text="About" Color="Color.Primary" Delay="100">
+            <MudTooltip Text="@(Messages.About)" Color="Color.Primary" Delay="@TOOLTIP_DELAY">
                 <MudIcon Icon="@Icons.Material.Filled.Person" />
             </MudTooltip>
         </MudButton>
         <MudButton Variant="Variant.Text" Size="Size.Small" Class="footer-button" OnClick="@OpenColorPickerAsync">
-            <MudTooltip Text="Theme Settings" Color="Color.Primary" Delay="100">
+            <MudTooltip Text="@(Messages.Theme)" Color="Color.Primary" Delay="@TOOLTIP_DELAY">
                 <MudIcon Icon="@Icons.Material.Filled.Palette" />
             </MudTooltip>
         </MudButton>
@@ -28,13 +44,23 @@
 </MudPaper>
 
 @code {
-    protected override void OnInitialized()
+    private const int TOOLTIP_DELAY = 100;
+
+    protected override async void OnInitialized()
     {
+        // Update the "api info" label automatically when connectivity changes
+        this.DiscogsClient.OnConnectivityChanged += (sender, args) =>
+        {
+            this.InvokeAsync(this.StateHasChanged);
+        };
+
         // Update the "logged in" label automatically when authentication changes
         this.DiscogsClient.OnAuthenticationChanged += (sender, args) =>
         {
             this.InvokeAsync(this.StateHasChanged);
         };
+        
+        await this.DiscogsClient.ConnectAsync();
     }
 
     /// <summary>
@@ -42,7 +68,7 @@
     /// </summary>
     private async Task OpenColorPickerAsync()
     {
-        IDialogReference dialog = await DialogService.ShowAsync<ColorPickerDialog>();
+        IDialogReference dialog = await this.DialogService.ShowAsync<ColorPickerDialog>();
         await dialog.Result;
         await ThemeService.PersistAsync();
     }

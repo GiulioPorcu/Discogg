@@ -13,9 +13,7 @@ namespace Application.Extensions
         /// </summary>
         /// <param name="color">The color to convert.</param>
         /// <returns>The RGBA string representation of the color.</returns>
-        public static string ToRgba(this MudColor color)
-        {
-            return color.ToString(MudColorOutputFormats.RGBA);
-        }
+        public static string? ToRgba(this MudColor color) 
+            => color?.ToString(MudColorOutputFormats.RGBA);
     }
 }
