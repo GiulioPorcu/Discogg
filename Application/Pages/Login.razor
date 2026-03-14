@@ -55,7 +55,6 @@
         }
 
         this.LoadingService.OnChanged += StateHasChanged;
-
     }
 
     private void TogglePasswordVisibility()
@@ -85,7 +84,6 @@
 
         if (await this.DiscogsClient.AuthenticateAsync(this.Token ?? string.Empty))
         {
-            this.Snackbar.Add($"Hello {this.DiscogsClient.User?.UserName ?? "N/A"}", Severity.Success);
             // this.NavigationManager.NavigateTo("/");
         }
         else

@@ -1,4 +1,5 @@
 ﻿@inject ThemeService ThemeService
+@inject DiscogsClient DiscogsClient
 @inject IDialogService DialogService
 @inject NavigationManager NavigationManager
 
@@ -6,6 +7,12 @@
     <MudText Typo="Typo.caption">
         © @(DateTime.Now.Year) | Giulio Porcu
     </MudText>
+    @if (this.DiscogsClient.IsAuthenticated)
+    {
+        <MudText Typo="Typo.caption">
+            Logged in as: @(this.DiscogsClient!.User!.UserName)
+        </MudText>
+    }
     <div class="d-flex align-center">
         <MudButton Variant="Variant.Text" Size="Size.Small" Class="footer-button" OnClick="@OpenAboutPageAsync">
             <MudTooltip Text="About" Color="Color.Primary" Delay="100">
@@ -21,6 +28,15 @@
 </MudPaper>
 
 @code {
+    protected override void OnInitialized()
+    {
+        // Update the "logged in" label automatically when authentication changes
+        this.DiscogsClient.OnAuthenticationChanged += (sender, args) =>
+        {
+            this.InvokeAsync(this.StateHasChanged);
+        };
+    }
+
     /// <summary>
     /// Opens the theme color picker dialog and persist selection afterwards.
     /// </summary>

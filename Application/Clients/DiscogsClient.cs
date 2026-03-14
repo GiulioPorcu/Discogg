@@ -14,6 +14,7 @@ namespace Application.Clients
         public event EventHandler<string>? OnError;
         public event EventHandler<RequestStartingEventArgs>? OnRequestStarting;
         public event EventHandler<RequestCompletedEventArgs>? OnRequestCompleted;
+        public event EventHandler? OnAuthenticationChanged;
 
         public Identity? User { get; private set; }
         public bool IsAuthenticated { get { return this.User?.Id != null; } }
@@ -48,8 +49,6 @@ namespace Application.Clients
 
             this.OnRequestStarting?.Invoke(this, new RequestStartingEventArgs(method, uri));
 
-            await Task.Delay(1000, ct);
-
             HttpRequestMessage request = new HttpRequestMessage(method, uri);
             HttpResponseMessage response = await this._client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, ct);
 
@@ -60,6 +59,9 @@ namespace Application.Clients
 
         public async Task<bool> AuthenticateAsync(string token, CancellationToken ct = default)
         {
+            this.User = null;
+            this.OnAuthenticationChanged?.Invoke(this, EventArgs.Empty);
+
             try
             {
                 Dictionary<string, string> queryParams = new Dictionary<string, string>()
@@ -71,7 +73,6 @@ namespace Application.Clients
                 {
                     if (!response.IsSuccessStatusCode)
                     {
-                        this.User = null;
                         return false;
                     }
 
@@ -82,12 +83,13 @@ namespace Application.Clients
 
                         if (identity is null)
                         {
-                            this.User = null;
                             return false;
                         }
 
                         identity.Token = token;
+
                         this.User = identity;
+                        this.OnAuthenticationChanged?.Invoke(this, EventArgs.Empty);
 
                         return true;
                     }
@@ -95,8 +97,7 @@ namespace Application.Clients
             }
             catch (Exception exception)
             {
-                OnError?.Invoke(this, exception.ToString());
-                this.User = null;
+                this.OnError?.Invoke(this, exception.ToString());
                 return false;
             }
         }

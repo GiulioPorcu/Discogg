@@ -22,7 +22,7 @@ namespace Application.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Messages {
+    internal class Messages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Application.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Application.Properties.Messages", typeof(Messages).Assembly);
@@ -51,7 +51,7 @@ namespace Application.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Application.Properties {
         /// <summary>
         ///   Looks up a localized string similar to API Token.
         /// </summary>
-        public static string ApiToken {
+        internal static string ApiToken {
             get {
                 return ResourceManager.GetString("ApiToken", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace Application.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Authentication successful....
         /// </summary>
-        public static string AuthenticationSuccessful {
+        internal static string AuthenticationSuccessful {
             get {
                 return ResourceManager.GetString("AuthenticationSuccessful", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace Application.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Failed to authenticate....
         /// </summary>
-        public static string FailedToAuthenticate {
+        internal static string FailedToAuthenticate {
             get {
                 return ResourceManager.GetString("FailedToAuthenticate", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace Application.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The API Token is invalid....
         /// </summary>
-        public static string InvalidApiToken {
+        internal static string InvalidApiToken {
             get {
                 return ResourceManager.GetString("InvalidApiToken", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace Application.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Remember Token.
         /// </summary>
-        public static string RememberToken {
+        internal static string RememberToken {
             get {
                 return ResourceManager.GetString("RememberToken", resourceCulture);
             }

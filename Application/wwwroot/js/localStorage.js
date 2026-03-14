@@ -6,14 +6,11 @@ window.discogg.localStorage = {
     // Version identifier for future migrations
     _version: 1,
 
-    // Device fingerprint (non-sensitive, non-unique)
-    _deviceInfo: navigator.userAgent + navigator.platform + navigator.vendor,
-
     // Derives a 256-bit AES-GCM key from the key name + device info
     _deriveKeyAsync: async function (keyName) {
         const enc = new TextEncoder();
 
-        const password = keyName + "|" + this._deviceInfo;
+        const password = keyName + "|" + this._getSoftFingerprint();
 
         const keyMaterial = await crypto.subtle.importKey(
             "raw",
@@ -35,6 +32,20 @@ window.discogg.localStorage = {
             false,
             ["encrypt", "decrypt"]
         );
+    },
+
+    /**
+     * Generates a stable, non-unique fingerprint based on browser capabilities (resolution, timezone, language, etc.)
+     */
+    _getSoftFingerprint: async function() {
+        return JSON.stringify({
+            lang: navigator.language,
+            tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            res: `${screen.width}x${screen.height}`,
+            depth: screen.colorDepth,
+            cores: navigator.hardwareConcurrency,
+            touch: navigator.maxTouchPoints
+        });
     },
 
     // Computes a SHA-256 integrity hash of the ciphertext
