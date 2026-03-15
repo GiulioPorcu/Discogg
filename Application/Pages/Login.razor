@@ -1,36 +1,43 @@
 ﻿@page "/"
 @page "/login"
-@using System.Security
 
 @layout LoginLayout
 
 @inject NavigationManager NavigationManager
-@inject LoadingService LoadingService
-@inject DiscogsClient DiscogsClient
+@inject DiscogsService DiscogsClient
+@inject AuthenticationService AuthenticationService
+@inject UserService UserService
 @inject LocalStorageService LocalStorageService
 @inject ISnackbar Snackbar
 
-<MudOverlay Visible="LoadingService.IsLoading" DarkBackground="true">
+<MudOverlay Visible="IsBusy" DarkBackground="true">
     <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
 </MudOverlay>
 
 <MudContainer MaxWidth="MaxWidth.ExtraSmall" Class="d-flex justify-center mt-12 ">
     <MudCard Class="pa-6 component" Style="width: 100%; ">
         <MudText Typo="Typo.h5" Class="mb-4">
-            Login
+            @Messages.WelcomeToDiscogg
         </MudText>
-        <MudTextField @bind-Value="Token"
-                      Label="@(Messages.ApiToken)"
-                      Variant="Variant.Outlined"
-                      InputType="@(ShowPassword? InputType.Text: InputType.Password)"
-                      Class="mb-4"
-                      Adornment="Adornment.End"
-                      AdornmentIcon="@(ShowPassword? Icons.Material.Filled.VisibilityOff : Icons.Material.Filled.Visibility)"
-                      OnAdornmentClick="TogglePasswordVisibility"
-                      IconSize="Size.Medium" />
-        <MudCheckBox T="bool" Label="Remember Token" Class="mb-4" @bind-Value="this.RememberMe" Color="Color.Primary" />
+        <div class="d-flex flex-column">
+            <MudTextField @bind-Value="Token"
+                          Label="@(Messages.ApiToken)"
+                          Variant="Variant.Outlined"
+                          InputType="@(ShowPassword? InputType.Text: InputType.Password)"
+                          Adornment="Adornment.End"
+                          AdornmentIcon="@(ShowPassword? Icons.Material.Filled.VisibilityOff : Icons.Material.Filled.Visibility)"
+                          OnAdornmentClick="TogglePasswordVisibility"
+                          IconSize="Size.Medium" />
+
+            <MudLink Typo="Typo.caption"
+                     Href="https://www.discogs.com/developers/#page:authentication"
+                     Class="ml-auto mt-1">
+                @Messages.WhereTokenFrom
+            </MudLink>
+        </div>
+        <MudCheckBox T="bool" Label=@Messages.RememberToken @bind-Value="this.RememberMe" Color="Color.Primary" />
         <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="LoginAsync" FullWidth="true">
-            Login
+            @Messages.Connect
         </MudButton>
     </MudCard>
 </MudContainer>
@@ -40,10 +47,10 @@
     private const string TOKEN_KEY = "token";
     private const string REMEMBER_TOKEN_TRUTHY = "T";
 
-
     private string? Token { get; set; }
     private bool RememberMe { get; set; }
     private bool ShowPassword { get; set; }
+    private bool IsBusy { get; set; }
 
     protected async override Task OnInitializedAsync()
     {
@@ -54,11 +61,20 @@
             this.Token = token;
         }
 
-        this.LoadingService.OnChanged += StateHasChanged;
+        this.DiscogsClient.OnRequestStarting += (sender, args) =>
+        {
+            this.IsBusy = true;
+        };
+
+        this.DiscogsClient.OnRequestCompleted += (sender, args) =>
+        {
+            this.IsBusy = false;
+        };
 
         this.DiscogsClient.OnError += (sender, args) =>
         {
             this.Snackbar.Add(args, Severity.Error);
+            this.IsBusy = false;
         };
     }
 
@@ -70,26 +86,20 @@
 
     private async Task LoginAsync()
     {
-        if (string.IsNullOrWhiteSpace(this.Token))
+        if (await this.AuthenticationService.AuthenticateAsync(this.Token ?? string.Empty) is OAuth oAuth)
         {
-            this.Snackbar.Add(Messages.InvalidApiToken, Severity.Error);
-            return;
-        }
+            if (this.RememberMe)
+            {
+                await this.LocalStorageService.SetAsync(REMEMBER_TOKEN_KEY, REMEMBER_TOKEN_TRUTHY);
+                await this.LocalStorageService.SetEncryptedAsync(TOKEN_KEY, this.Token ?? string.Empty);
+            }
+            else
+            {
+                await this.LocalStorageService.RemoveAsync(REMEMBER_TOKEN_KEY);
+                await this.LocalStorageService.RemoveAsync(TOKEN_KEY);
+            }
 
-        if (this.RememberMe)
-        {
-            await this.LocalStorageService.SetAsync(REMEMBER_TOKEN_KEY, REMEMBER_TOKEN_TRUTHY);
-            await this.LocalStorageService.SetEncryptedAsync(TOKEN_KEY, this.Token ?? string.Empty);
-        }
-        else
-        {
-            await this.LocalStorageService.RemoveAsync(REMEMBER_TOKEN_KEY);
-            await this.LocalStorageService.RemoveAsync(TOKEN_KEY);
-        }
-
-        if (await this.DiscogsClient.AuthenticateAsync(this.Token ?? string.Empty))
-        {
-            // this.NavigationManager.NavigateTo("/");
+            this.NavigationManager.NavigateTo($"users/{oAuth.UserName}");
         }
         else
         {

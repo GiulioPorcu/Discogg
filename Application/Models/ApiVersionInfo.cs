@@ -2,7 +2,7 @@
 
 namespace Application.Models
 {
-    public class ApiInfo
+    public class ApiVersionInfo
     {
         [JsonPropertyName("hello")]
         public string? GreetingText { get; set; }

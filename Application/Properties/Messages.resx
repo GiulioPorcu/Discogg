@@ -121,16 +121,19 @@
     <value>About</value>
   </data>
   <data name="ApiToken" xml:space="preserve">
-    <value>API Token</value>
+    <value>Discogs API Token</value>
   </data>
   <data name="AuthenticationSuccessful" xml:space="preserve">
     <value>Authentication successful...</value>
+  </data>
+  <data name="Connect" xml:space="preserve">
+    <value>Connect</value>
   </data>
   <data name="FailedToAuthenticate" xml:space="preserve">
     <value>Failed to authenticate...</value>
   </data>
   <data name="InvalidApiToken" xml:space="preserve">
-    <value>The API Token is invalid...</value>
+    <value>The API token is invalid...</value>
   </data>
   <data name="LoggedInAs" xml:space="preserve">
     <value>Logged in as</value>
@@ -139,12 +142,21 @@
     <value>OK</value>
   </data>
   <data name="RememberToken" xml:space="preserve">
-    <value>Remember Token</value>
+    <value>Remember token</value>
   </data>
   <data name="Theme" xml:space="preserve">
     <value>Theme</value>
   </data>
   <data name="ThemeSelection" xml:space="preserve">
-    <value>Theme Selection</value>
+    <value>Theme selection</value>
+  </data>
+  <data name="WebRequestFailed" xml:space="preserve">
+    <value>The web request failed.</value>
+  </data>
+  <data name="WelcomeToDiscogg" xml:space="preserve">
+    <value>Welcome to Discogg</value>
+  </data>
+  <data name="WhereTokenFrom" xml:space="preserve">
+    <value>Where do I get a token from?</value>
   </data>
 </root>

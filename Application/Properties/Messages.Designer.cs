@@ -70,7 +70,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to API Token.
+        ///   Looks up a localized string similar to Discogs API Token.
         /// </summary>
         internal static string ApiToken {
             get {
@@ -88,6 +88,15 @@ namespace Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connect.
+        /// </summary>
+        internal static string Connect {
+            get {
+                return ResourceManager.GetString("Connect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to authenticate....
         /// </summary>
         internal static string FailedToAuthenticate {
@@ -97,7 +106,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The API Token is invalid....
+        ///   Looks up a localized string similar to The API token is invalid....
         /// </summary>
         internal static string InvalidApiToken {
             get {
@@ -124,7 +133,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remember Token.
+        ///   Looks up a localized string similar to Remember token.
         /// </summary>
         internal static string RememberToken {
             get {
@@ -142,11 +151,38 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Theme Selection.
+        ///   Looks up a localized string similar to Theme selection.
         /// </summary>
         internal static string ThemeSelection {
             get {
                 return ResourceManager.GetString("ThemeSelection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The web request failed..
+        /// </summary>
+        internal static string WebRequestFailed {
+            get {
+                return ResourceManager.GetString("WebRequestFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome to Discogg.
+        /// </summary>
+        internal static string WelcomeToDiscogg {
+            get {
+                return ResourceManager.GetString("WelcomeToDiscogg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Where do I get a token from?.
+        /// </summary>
+        internal static string WhereTokenFrom {
+            get {
+                return ResourceManager.GetString("WhereTokenFrom", resourceCulture);
             }
         }
     }

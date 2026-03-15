@@ -121,10 +121,13 @@
     <value>Über</value>
   </data>
   <data name="ApiToken" xml:space="preserve">
-    <value>API-Token</value>
+    <value>Discogs API-Token</value>
   </data>
   <data name="AuthenticationSuccessful" xml:space="preserve">
     <value>Authentifizierung erfolgreich...</value>
+  </data>
+  <data name="Connect" xml:space="preserve">
+    <value>Verbinden</value>
   </data>
   <data name="FailedToAuthenticate" xml:space="preserve">
     <value>Authentifizierung fehlgeschlagen...</value>
@@ -146,5 +149,14 @@
   </data>
   <data name="ThemeSelection" xml:space="preserve">
     <value>Designwahl</value>
+  </data>
+  <data name="WebRequestFailed" xml:space="preserve">
+    <value>Der Webrequest ist fehlgeschlagen.</value>
+  </data>
+  <data name="WelcomeToDiscogg" xml:space="preserve">
+    <value>Willkommen zu Discogg</value>
+  </data>
+  <data name="WhereTokenFrom" xml:space="preserve">
+    <value>Wie bekomme ich einen Token?</value>
   </data>
 </root>

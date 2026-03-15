@@ -1,4 +1,3 @@
-using Application.Clients;
 using Application.Services;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -15,15 +14,17 @@ namespace Application
             builder.RootComponents.Add<App>("#app");
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
-            // Singletons
-            builder.Services.AddScoped(httpClientProvider => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-            builder.Services.AddScoped<MudThemeProvider>();
-            builder.Services.AddScoped<LoadingService>();
-            builder.Services.AddScoped<DiscogsClient>();
-
-            // JS Interop
-            builder.Services.AddScoped<LocalStorageService>();
+            // Services
             builder.Services.AddScoped<ThemeService>();
+            builder.Services.AddScoped<VersionInfoService>();
+            builder.Services.AddScoped<LocalStorageService>();
+            builder.Services.AddScoped<SerializationService>();
+            builder.Services.AddScoped<AuthenticationService>();
+            builder.Services.AddScoped<UserService>();
+            builder.Services.AddScoped<DiscogsService>();
+
+            // Clients
+            builder.Services.AddScoped(httpClientProvider => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
             // MudBlazor
             builder.Services.AddMudServices(config =>
