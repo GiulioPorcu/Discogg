@@ -6,8 +6,18 @@ using MudBlazor.Services;
 
 namespace Application
 {
+    /// <summary>
+    /// The entry point of the Blazor WebAssembly application.
+    /// Responsible for configuring root components, registering services,
+    /// initializing MudBlazor, and starting the application.
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// Configures and builds the WebAssembly host, registers application services,
+        /// sets up UI components, and starts the Blazor application.
+        /// </summary>
+        /// <param name="args">Command-line arguments passed to the application.</param>
         public static async Task Main(string[] args)
         {
             WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -24,7 +34,8 @@ namespace Application
             builder.Services.AddScoped<DiscogsService>();
 
             // Clients
-            builder.Services.AddScoped(httpClientProvider => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddScoped(httpClientProvider =>
+                new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
             // MudBlazor
             builder.Services.AddMudServices(config =>

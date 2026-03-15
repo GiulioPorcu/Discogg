@@ -63,18 +63,19 @@
 
     protected override async void OnInitialized()
     {
-        // Update the "api info" label automatically when connectivity changes
+        // Update the "api info" label automatically when connectivity changed
         this.ConnectionInfoService.OnConnectivityChanged += (sender, args) =>
         {
             this.InvokeAsync(this.StateHasChanged);
         };
-
+        
+        // Update the "version info" label automatically when version info fetched
         this.ConnectionInfoService.OnApplicationVersionFetched += (sender, args) =>
         {
             this.InvokeAsync(this.StateHasChanged);
         };
 
-        // Update the "logged in" label automatically when authentication changes
+        // Update the "logged in" label automatically when authentication changed
         this.AuthenticationService.OnAuthenticationChanged += (sender, args) =>
         {
             this.InvokeAsync(this.StateHasChanged);
@@ -99,6 +100,6 @@
     /// </summary>
     private async Task OpenAboutPageAsync()
     {
-        this.NavigationManager.NavigateTo("/about");
+        // this.NavigationManager.NavigateTo("/about");
     }
 }

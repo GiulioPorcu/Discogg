@@ -54,9 +54,9 @@
 
     protected async override Task OnInitializedAsync()
     {
-        this.RememberMe = await LocalStorageService.GetAsync(REMEMBER_TOKEN_KEY) == REMEMBER_TOKEN_TRUTHY;
+        this.RememberMe = await this.LocalStorageService.GetAsync(REMEMBER_TOKEN_KEY) == REMEMBER_TOKEN_TRUTHY;
 
-        if (this.RememberMe && await LocalStorageService.GetDecryptedAsync(TOKEN_KEY) is string token)
+        if (this.RememberMe && await this.LocalStorageService.GetDecryptedAsync(TOKEN_KEY) is string token)
         {
             this.Token = token;
         }

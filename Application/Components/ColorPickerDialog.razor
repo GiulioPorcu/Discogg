@@ -8,10 +8,10 @@
             <MudSpacer />
 
             <MudIcon Icon="@Icons.Material.Filled.WbSunny" Class="mr-2" />
-            <MudSwitch Color="Color.Primary" Class="mx-2" @bind-Value="ThemeService.IsDarkMode" />
+            <MudSwitch Color="Color.Primary" Class="mx-2" @bind-Value="this.ThemeService.IsDarkMode" />
             <MudIcon Icon="@Icons.Material.Filled.Bedtime" Class="ml-2 mr-3" />
         </div>
-        <MudColorPicker @bind-Text="ThemeService.PrimaryColor" ColorPickerMode="ColorPickerMode.RGB" PickerVariant="PickerVariant.Static"
+        <MudColorPicker @bind-Text="this.ThemeService.PrimaryColor" ColorPickerMode="ColorPickerMode.RGB" PickerVariant="PickerVariant.Static"
                         ShowToolbar="false" ShowAlpha="false" ShowColorField="true" ShowPreview="true"
                         ShowSliders="true" ShowInputs="false" ShowModeSwitch="false" />
     </DialogContent>

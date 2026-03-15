@@ -28,19 +28,34 @@ else
 }
 
 @code {
+    /// <summary>
+    /// Tracks whether the component has completed its asynchronous initialization.
+    /// </summary>
     private bool _initialized;
 
+    /// <summary>
+    /// Performs asynchronous initialization logic for the component.
+    /// Invokes the theme service initialization and marks the component as initialized.
+    /// </summary>
     protected override async Task OnInitializedAsync()
     {
         await this.ThemeService.InitializeAsync();
         this._initialized = true;
     }
 
+    /// <summary>
+    /// Registers for theme change notifications when the component is initialized.
+    /// Ensures the UI updates when the theme changes.
+    /// </summary>
     protected override void OnInitialized()
     {
         this.ThemeService.OnThemeChange += StateHasChanged;
     }
 
+    /// <summary>
+    /// Unsubscribes from theme change notifications when the component is disposed.
+    /// Prevents memory leaks and unintended UI updates.
+    /// </summary>
     public void Dispose()
     {
         this.ThemeService.OnThemeChange -= StateHasChanged;
