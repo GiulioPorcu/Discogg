@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "Application",
   "resources": {
-    "hash": "sha256-mOYFEZXqKG5eB1lb2kH222wwp92uwmlVTG2EOErPhT0=",
+    "hash": "sha256-PlzFsp2I1Aa74SsuYASDtIoKMQJDic587AHJ2XzUzKI=",
     "jsModuleNative": {
       "dotnet.native.js": "sha256-NljIbpK/1KCj0+knpX8U77Rbl5kTtfFIuFjK7AuczEw="
     },
@@ -62,11 +62,11 @@
       "System.Threading.wasm": "sha256-nmepV77ZAMV4rtWKj97dQetLJPZg+Rk73df3E6cmfe8=",
       "System.wasm": "sha256-jXhnUNHzjjL7Plo7WcHuX7V5Dc/Umt+qmGGC+Js76SE=",
       "System.Private.CoreLib.wasm": "sha256-iTABKjS7t2sv/OfwCc9+RQzctTRtR4REiNaRqXTmD5U=",
-      "Application.wasm": "sha256-kj+DzjZcBvJlAoIHvNxBi5Ah4+8JeX9LJMCtK5dnv/c="
+      "Application.wasm": "sha256-DnZyW70Nk2E/WGXw/5YrSdfDs1ft2Qtyj6TgcY5xhws="
     },
     "satelliteResources": {
       "de": {
-        "Application.resources.wasm": "sha256-2eNu+DMK/wcAzm6DIMkhC8Ca/2/KWbxoVfprtpjxgx8="
+        "Application.resources.wasm": "sha256-WpdNQY8IFpI/5TqDSyyM+AwVw9981gpaUDmh0ZPa0S4="
       }
     }
   },
