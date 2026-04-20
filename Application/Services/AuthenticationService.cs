@@ -1,6 +1,7 @@
-﻿using Application.Events;
+using Application.Events;
 using Application.Properties;
 using Discogs.API;
+using Microsoft.Extensions.Logging;
 
 namespace Application.Services
 {
@@ -14,7 +15,10 @@ namespace Application.Services
     /// <param name="serializationService">
     /// The service responsible for deserializing API responses.
     /// </param>
-    public class AuthenticationService(DiscogsService discogsService, SerializationService serializationService)
+    /// <param name="logger">
+    /// The <see cref="ILogger{AuthenticationService}"/> instance used for logging.
+    /// </param>
+    public class AuthenticationService(DiscogsService discogsService, SerializationService serializationService, ILogger<AuthenticationService>? logger = null)
     {
         /// <summary>
         /// Occurs when an authentication-related error is raised.
@@ -39,6 +43,8 @@ namespace Application.Services
         /// </summary>
         public bool IsAuthenticated => this.User?.Id != null;
 
+        private readonly ILogger<AuthenticationService>? _logger = logger;
+
         /// <summary>
         /// Attempts to authenticate using the provided API token. If successful,
         /// retrieves the associated user identity from the Discogs API and updates
@@ -50,41 +56,54 @@ namespace Application.Services
         /// The authenticated <see cref="OAuth"/> user object if authentication succeeds;
         /// otherwise <c>null</c>.
         /// </returns>
-
         public async Task<OAuth?> AuthenticateAsync(string token, CancellationToken ct = default)
         {
             this.User = null;
             this.OnAuthenticationChanged?.Invoke(this, new AuthenticationChangedEventArgs(null));
 
-            if (String.IsNullOrWhiteSpace(token))
+            if (string.IsNullOrWhiteSpace(token))
             {
+                this._logger?.LogWarning("Authentication attempt with empty token");
                 this.OnError?.Invoke(this, Messages.InvalidApiToken);
+                return null;
             }
-            else
+
+            try
             {
-                try
-                {
-                    string uri = DiscogsService.AssembleUri("/oauth/identity", new Dictionary<string, string>() { { "token", token } });
-                    using HttpResponseMessage? response = await discogsService.DoRequestAsync(HttpMethod.Get, uri, content: null, ct) ?? throw new Exception(Messages.WebRequestFailed);
+                string uri = DiscogsService.AssembleUri("/oauth/identity", new Dictionary<string, string>() { { "token", token } });
+                using HttpResponseMessage? response = await discogsService.DoRequestAsync(HttpMethod.Get, uri, content: null, ct);
 
-                    if (response.IsSuccessStatusCode && await serializationService.DeserializeAsync<OAuth>(response, ct) is OAuth user)
-                    {
-                        user.Token = token;
-                        this.User = user;
-                        this.OnAuthenticationChanged?.Invoke(this, new AuthenticationChangedEventArgs(this.User));
-                    }
-                    else
-                    {
-                        this.OnError?.Invoke(this, await response.Content.ReadAsStringAsync(ct));
-                    }
-                }
-                catch (Exception exception)
+                if (response is null)
                 {
-                    this.OnError?.Invoke(this, exception.Message);
+                    this._logger?.LogError("Web request failed");
+                    this.OnError?.Invoke(this, Messages.WebRequestFailed);
+                    return null;
                 }
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var user = await serializationService.DeserializeAsync<OAuth>(response, ct);
+                    if (user is OAuth oauthUser)
+                    {
+                        oauthUser.Token = token;
+                        this.User = oauthUser;
+                        this._logger?.LogInformation("User authenticated: {Username}", oauthUser.UserName);
+                        this.OnAuthenticationChanged?.Invoke(this, new AuthenticationChangedEventArgs(this.User));
+                        return this.User;
+                    }
+                }
+
+                string errorContent = await response.Content.ReadAsStringAsync(ct);
+                this._logger?.LogWarning("Authentication failed: {Error}", errorContent);
+                this.OnError?.Invoke(this, errorContent);
+            }
+            catch (Exception exception)
+            {
+                this._logger?.LogError(exception, "Authentication error");
+                this.OnError?.Invoke(this, exception.Message);
             }
 
-            return this.User;
+            return null;
         }
     }
 }

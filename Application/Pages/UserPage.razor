@@ -1,92 +1,177 @@
-﻿@page "/user/{userName}"
+@page "/user/{userName}"
 
+@using System.Globalization
 @inject NavigationManager Nav
 @inject UserService UserService
 
 <PageTitle>@userName</PageTitle>
 
-@if (isLoading)
-{
-    <p>Loading…</p>
-}
-else if (user is null)
-{
-    <p>User not found.</p>
-}
-else
-{
-    <div class="user-profile">
-
-        <!-- Avatar + Basic Info -->
-        <div class="profile-header">
-            <img class="avatar" src="@user.AvatarUrl" alt="avatar" />
-
-            <div class="profile-info">
-                <h2>@user.UserName</h2>
-
-                @if (!string.IsNullOrWhiteSpace(user.Name))
-                {
-                    <p>@user.Name</p>
-                }
-
-                <p>Member since @user.RegisteredDate.ToString()</p>
-
-                @if (!string.IsNullOrWhiteSpace(user.Location))
-                {
-                    <p>@user.Location</p>
-                }
-
-                @if (!string.IsNullOrWhiteSpace(user.HomePage))
-                {
-                    <a href="@user.HomePage" target="_blank">@user.HomePage</a>
-                }
-            </div>
-        </div>
-
-        <!-- Collection Preview -->
-        <div class="collection-section">
-            <h3>Collection</h3>
-
-            <div class="collection-carousel">
-                <button @onclick="PrevItem">‹</button>
-
-                <div class="collection-items">
-                    @foreach (var item in visibleItems)
+<MudGrid>
+    @if (isLoading)
+    {
+        <MudItem xs="12">
+            <MudProgressLinear Indeterminate />
+        </MudItem>
+    }
+    else if (user is null)
+    {
+        <MudItem xs="12">
+            <MudAlert Severity="Severity.Warning">User not found.</MudAlert>
+        </MudItem>
+    }
+    else
+    {
+        <!-- Left Sidebar - Avatar & Basic Info -->
+        <MudItem xs="12" md="4" lg="3">
+            <MudCard>
+                <MudCardContent Class="d-flex flex-column align-center">
+                    <MudAvatar Size="Size.Large" Class="mb-3">
+                        <MudImage Src="@user.AvatarUrl" Alt="avatar" />
+                    </MudAvatar>
+                    
+                    @if (!string.IsNullOrWhiteSpace(user.Name))
                     {
-                        <div class="collection-item">
-                            <img src="@item.BasicInformation." alt="cover" />
-                            <p>@item.BasicInformation.Thumb</p>
-                        </div>
+                        <MudText Typo="Typo.h6">@user.Name</MudText>
                     }
+                    
+                    <MudText Typo="Typo.caption" Color="Color.Default">
+                        Member since @user.RegisteredDate
+                    </MudText>
+
+                    @if (!string.IsNullOrWhiteSpace(user.Location))
+                    {
+                        <MudText Typo="Typo.body2" Class="mt-2">
+                            <MudIcon Icon="@Icons.Material.Filled.LocationOn" Size="Size.Small" /> @user.Location
+                        </MudText>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(user.HomePage))
+                    {
+                        <MudLink Href="@user.HomePage" Target="_blank" Class="mt-2">
+                            @user.HomePage
+                        </MudLink>
+                    }
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <!-- Main Content Area -->
+        <MudItem xs="12" md="8" lg="9">
+            <MudText Typo="Typo.h4" Class="mb-4">@user.UserName</MudText>
+
+            <!-- Collection Carousel -->
+            <MudPaper Class="pa-4 mb-4">
+                <MudText Typo="Typo.h6" Class="mb-3">Collection</MudText>
+                
+                <div class="carousel-container">
+                    <MudButton Variant="Variant.Filled" 
+                               Color="Color.Default" 
+                               OnClick="PrevItem"
+                               Disabled="@((user.CollectionFolders?.Count ?? 0) <= 3)"
+                               Class="carousel-btn">
+                        <MudIcon Icon="@Icons.Material.Filled.ChevronLeft" />
+                    </MudButton>
+
+                    <div class="carousel-items">
+                        @foreach (var item in visibleItems)
+                        {
+                            <div class="carousel-item">
+                                <MudCard>
+                                    <MudCardMedia Image="@item.BasicInformation?.Thumb" Height="150" />
+                                    <MudCardContent Class="pa-2">
+                                        <MudText Typo="Typo.body2" Class="truncate-text">
+                                            @item.BasicInformation?.Title
+                                        </MudText>
+                                    </MudCardContent>
+                                </MudCard>
+                            </div>
+                        }
+                    </div>
+
+                    <MudButton Variant="Variant.Filled" 
+                               Color="Color.Default" 
+                               OnClick="NextItem"
+                               Disabled="@((user.CollectionFolders?.Count ?? 0) <= 3)"
+                               Class="carousel-btn">
+                        <MudIcon Icon="@Icons.Material.Filled.ChevronRight" />
+                    </MudButton>
                 </div>
+            </MudPaper>
 
-                <button @onclick="NextItem">›</button>
-            </div>
-        </div>
+            <!-- Stats Section -->
+            <MudPaper Class="pa-4 mb-4">
+                <MudText Typo="Typo.h6" Class="mb-3">Stats</MudText>
+                
+                <MudSimpleTable Dense>
+                    <tbody>
+                        <tr>
+                            <td>Total items</td>
+                            <td>@totalItems</td>
+                        </tr>
+                        <tr>
+                            <td>Sum of lowest prices</td>
+                            <td>@sumLowestPrice €</td>
+                        </tr>
+                    </tbody>
+                </MudSimpleTable>
+            </MudPaper>
 
-        <!-- Stats -->
-        <div class="stats-section">
-            <h3>Stats</h3>
-
-            <ul>
-                <li>Total items: @visibleItems.Count</li>
-                <!--<li>Sum of lowest prices: @stats.SumLowestPrice €</li>-->
-                <!-- Add more stats as needed -->
-            </ul>
-        </div>
+            <!-- German Placeholder Note -->
+            <MudPaper Class="pa-4 mb-4" Color="Color.Info">
+                <MudText Typo="Typo.body2">
+                    <b>Hinweis:</b> Weitere Funktionen werden in Kürze verfügbar sein.
+                </MudText>
+            </MudPaper>
+        </MudItem>
 
         <!-- Footer -->
-        <footer class="profile-footer">
-            <!-- whatever you want here -->
-        </footer>
-    </div>
-}
+        <MudItem xs="12">
+            <MudDivider Class="mb-2" />
+            <MudText Typo="Typo.caption" Align="Align.Center" Color="Color.Secondary">
+                © 2024 Discogg. Alle Rechte vorbehalten.
+            </MudText>
+        </MudItem>
+    }
+</MudGrid>
+
+<style>
+    .carousel-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .carousel-items {
+        display: flex;
+        gap: 16px;
+        flex: 1;
+        justify-content: center;
+    }
+
+    .carousel-item {
+        flex: 0 0 calc(33.333% - 11px);
+        max-width: 200px;
+    }
+
+    .carousel-btn {
+        flex-shrink: 0;
+    }
+
+    .truncate-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 180px;
+    }
+</style>
 
 @code {
     [Parameter] public string? userName { get; set; }
 
     private User? user;
     private bool isLoading = true;
+    private decimal sumLowestPrice;
+    private int totalItems;
 
     private List<UserCollectionFolder> visibleItems = new();
     private int carouselIndex = 0;
@@ -95,6 +180,17 @@ else
     {
         isLoading = true;
         user = await UserService.GetAsync(userName);
+        
+        if (user?.CollectionFolders != null)
+        {
+            totalItems = user.CollectionFolders.Count;
+            sumLowestPrice = (decimal)user.CollectionFolders
+                .Where(f => f.BasicInformation?.LowestPrice != null)
+                .Sum(f => f.BasicInformation!.LowestPrice ?? 0f);
+            
+            UpdateVisibleItems();
+        }
+        
         isLoading = false;
     }
 
@@ -103,7 +199,8 @@ else
         if (user?.CollectionFolders is null || user.CollectionFolders.Count == 0)
             return;
 
-        carouselIndex = (carouselIndex - 1 + user.CollectionFolders.Count) % user.CollectionFolders.Count;
+        int itemCount = user.CollectionFolders.Count;
+        carouselIndex = (carouselIndex - 3 + itemCount) % itemCount;
         UpdateVisibleItems();
     }
 
@@ -112,26 +209,27 @@ else
         if (user?.CollectionFolders is null || user.CollectionFolders.Count == 0)
             return;
 
-        carouselIndex = (carouselIndex + 1) % user.CollectionFolders.Count;
+        carouselIndex = (carouselIndex + 3) % user.CollectionFolders.Count;
         UpdateVisibleItems();
     }
 
     private void UpdateVisibleItems()
     {
-        if (user?.CollectionFolders is null)
-            return;
-            
-        visibleItems = user.CollectionFolders
-            .Skip(carouselIndex)
-            .Take(3)
-            .ToList();
-
-        // wrap-around if fewer than 3 remain
-        if (visibleItems.Count < 3)
+        if (user?.CollectionFolders is null || user.CollectionFolders.Count == 0)
         {
-            visibleItems.AddRange(
-                user.CollectionFolders.Take(3 - visibleItems.Count)
-            );
-                }
+            visibleItems = new List<UserCollectionFolder>();
+            return;
+        }
+
+        var folders = user.CollectionFolders;
+        int count = folders.Count;
+        
+        visibleItems = new List<UserCollectionFolder>();
+        
+        for (int i = 0; i < 3; i++)
+        {
+            int idx = (carouselIndex + i) % count;
+            visibleItems.Add(folders[idx]);
+        }
     }
 }
