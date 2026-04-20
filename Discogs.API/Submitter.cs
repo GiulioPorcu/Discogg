@@ -1,20 +1,20 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Application.Models
+namespace Discogs.API
 {
     /// <summary>
-    /// Represents a contributor associated with a release entry.
+    /// Represents the user who originally submitted the release entry.
     /// </summary>
-    public class Contributor
+    public class Submitter
     {
         /// <summary>
-        /// Gets or sets the contributor's username.
+        /// Gets or sets the submitter's username.
         /// </summary>
         [JsonPropertyName("username")]
         public string? UserName { get; set; }
 
         /// <summary>
-        /// Gets or sets the API resource URL for the contributor.
+        /// Gets or sets the API resource URL for the submitter.
         /// </summary>
         [JsonPropertyName("resource_url")]
         public string? ResourceUrl { get; set; }

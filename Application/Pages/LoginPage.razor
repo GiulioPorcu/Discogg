@@ -29,7 +29,7 @@
                           OnAdornmentClick="TogglePasswordVisibility"
                           IconSize="Size.Medium" />
 
-            <MudLink Typo="Typo.caption"
+            <MudLink Typo="Typo.caption" Target="_blank"
                      Href="https://www.discogs.com/developers/#page:authentication"
                      Class="ml-auto mt-1">
                 @Messages.WhereTokenFrom
@@ -99,7 +99,7 @@
                 await this.LocalStorageService.RemoveAsync(TOKEN_KEY);
             }
 
-            this.NavigationManager.NavigateTo($"users/{oAuth.UserName}");
+            this.NavigationManager.NavigateTo($"user/{oAuth.UserName}");
         }
         else
         {

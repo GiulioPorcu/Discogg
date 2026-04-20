@@ -11,14 +11,14 @@
         {
             <MudStack Row="true" Spacing="1">
                 <MudIcon Icon="@Icons.Material.Filled.Check" Size="Size.Small" Style="color: #146617;" />
-                <MudLink Typo="Typo.caption" Href="https://www.discogs.com/developers/">
+                <MudLink Typo="Typo.caption" Target="_blank" Href="https://www.discogs.com/developers/">
                     Discogs API @(this.ConnectionInfoService.ApiInfo!.ApiVersion)
                 </MudLink>
             </MudStack>
 
             <MudStack Row="true" Spacing="1">
                 <MudIcon Icon="@Icons.Material.Filled.Check" Size="Size.Small" Style="color: #146617;" />
-                <MudLink Typo="Typo.caption" Href="https://github.com/GiulioPorcu/Discogg">
+                <MudLink Typo="Typo.caption" Target="_blank" Href="https://github.com/GiulioPorcu/Discogg">
                     Application v@(this.ConnectionInfoService.ApplicationVersion)
                 </MudLink>
             </MudStack>

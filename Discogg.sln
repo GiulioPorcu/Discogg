@@ -5,6 +5,10 @@ VisualStudioVersion = 18.0.11205.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{CE822854-0197-4FA7-9D40-F2F16DA5CA5B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discogs.API", "Discogs.API\Discogs.API.csproj", "{04329B1D-AA50-4801-8693-D6F69FC6C2BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discogs.API.Tests", "Discogs.API.Tests\Discogs.API.Tests.csproj", "{6DB287A7-83CC-4F89-8227-15D129E18B8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{CE822854-0197-4FA7-9D40-F2F16DA5CA5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE822854-0197-4FA7-9D40-F2F16DA5CA5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE822854-0197-4FA7-9D40-F2F16DA5CA5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04329B1D-AA50-4801-8693-D6F69FC6C2BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04329B1D-AA50-4801-8693-D6F69FC6C2BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04329B1D-AA50-4801-8693-D6F69FC6C2BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04329B1D-AA50-4801-8693-D6F69FC6C2BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DB287A7-83CC-4F89-8227-15D129E18B8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DB287A7-83CC-4F89-8227-15D129E18B8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DB287A7-83CC-4F89-8227-15D129E18B8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DB287A7-83CC-4F89-8227-15D129E18B8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

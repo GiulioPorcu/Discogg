@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Application.Models
+namespace Discogs.API
 {
     /// <summary>
     /// Represents an identifier associated with a release, such as a barcode or matrix number.

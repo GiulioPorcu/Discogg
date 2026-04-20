@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Application.Models
+namespace Discogs.API
 {
     /// <summary>
     /// Represents version information returned by the API.
@@ -30,29 +30,5 @@ namespace Application.Models
         /// </summary>
         [JsonPropertyName("statistics")]
         public ApiInfoStatistics? Statistics { get; set; }
-    }
-
-    /// <summary>
-    /// Represents statistical information returned by the API.
-    /// </summary>
-    public class ApiInfoStatistics
-    {
-        /// <summary>
-        /// Gets or sets the number of releases.
-        /// </summary>
-        [JsonPropertyName("releases")]
-        public int? Releases { get; set; }
-
-        /// <summary>
-        /// Gets or sets the number of artists.
-        /// </summary>
-        [JsonPropertyName("artists")]
-        public int? Artists { get; set; }
-
-        /// <summary>
-        /// Gets or sets the number of labels.
-        /// </summary>
-        [JsonPropertyName("labels")]
-        public int? Labels { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Application.Models
+namespace Discogs.API
 {
     /// <summary>
     /// Represents community rating information for a release,

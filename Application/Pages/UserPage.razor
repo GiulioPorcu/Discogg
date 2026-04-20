@@ -1,0 +1,137 @@
+﻿@page "/user/{userName}"
+
+@inject NavigationManager Nav
+@inject UserService UserService
+
+<PageTitle>@userName</PageTitle>
+
+@if (isLoading)
+{
+    <p>Loading…</p>
+}
+else if (user is null)
+{
+    <p>User not found.</p>
+}
+else
+{
+    <div class="user-profile">
+
+        <!-- Avatar + Basic Info -->
+        <div class="profile-header">
+            <img class="avatar" src="@user.AvatarUrl" alt="avatar" />
+
+            <div class="profile-info">
+                <h2>@user.UserName</h2>
+
+                @if (!string.IsNullOrWhiteSpace(user.Name))
+                {
+                    <p>@user.Name</p>
+                }
+
+                <p>Member since @user.RegisteredDate.ToString()</p>
+
+                @if (!string.IsNullOrWhiteSpace(user.Location))
+                {
+                    <p>@user.Location</p>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(user.HomePage))
+                {
+                    <a href="@user.HomePage" target="_blank">@user.HomePage</a>
+                }
+            </div>
+        </div>
+
+        <!-- Collection Preview -->
+        <div class="collection-section">
+            <h3>Collection</h3>
+
+            <div class="collection-carousel">
+                <button @onclick="PrevItem">‹</button>
+
+                <div class="collection-items">
+                    @foreach (var item in visibleItems)
+                    {
+                        <div class="collection-item">
+                            <img src="@item.BasicInformation." alt="cover" />
+                            <p>@item.BasicInformation.Thumb</p>
+                        </div>
+                    }
+                </div>
+
+                <button @onclick="NextItem">›</button>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-section">
+            <h3>Stats</h3>
+
+            <ul>
+                <li>Total items: @visibleItems.Count</li>
+                <!--<li>Sum of lowest prices: @stats.SumLowestPrice €</li>-->
+                <!-- Add more stats as needed -->
+            </ul>
+        </div>
+
+        <!-- Footer -->
+        <footer class="profile-footer">
+            <!-- whatever you want here -->
+        </footer>
+    </div>
+}
+
+@code {
+    [Parameter] public string? userName { get; set; }
+
+    private User? user;
+    private bool isLoading = true;
+
+    private List<UserCollectionFolder> visibleItems = new();
+    private int carouselIndex = 0;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        isLoading = true;
+        user = await UserService.GetAsync(userName);
+        isLoading = false;
+    }
+
+    private void PrevItem()
+    {
+        if (user?.CollectionFolders is null || user.CollectionFolders.Count == 0)
+            return;
+
+        carouselIndex = (carouselIndex - 1 + user.CollectionFolders.Count) % user.CollectionFolders.Count;
+        UpdateVisibleItems();
+    }
+
+    private void NextItem()
+    {
+        if (user?.CollectionFolders is null || user.CollectionFolders.Count == 0)
+            return;
+
+        carouselIndex = (carouselIndex + 1) % user.CollectionFolders.Count;
+        UpdateVisibleItems();
+    }
+
+    private void UpdateVisibleItems()
+    {
+        if (user?.CollectionFolders is null)
+            return;
+            
+        visibleItems = user.CollectionFolders
+            .Skip(carouselIndex)
+            .Take(3)
+            .ToList();
+
+        // wrap-around if fewer than 3 remain
+        if (visibleItems.Count < 3)
+        {
+            visibleItems.AddRange(
+                user.CollectionFolders.Take(3 - visibleItems.Count)
+            );
+                }
+    }
+}

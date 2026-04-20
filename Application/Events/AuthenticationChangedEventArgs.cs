@@ -1,4 +1,5 @@
-﻿using Application.Models;
+﻿
+using Discogs.API;
 
 namespace Application.Events
 {

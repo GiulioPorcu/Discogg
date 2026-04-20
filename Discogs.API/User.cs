@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Application.Models
+namespace Discogs.API
 {
     /// <summary>
     /// Represents a Discogs user account with profile details, activity statistics,
@@ -211,5 +211,19 @@ namespace Application.Models
         /// </summary>
         [JsonPropertyName("num_wantlist")]
         public int? NumberOfItemsInWantList { get; set; }
+
+        // Convenience properties
+
+        [JsonIgnore]
+        public List<Listing> Listings { get; set; } = [];
+
+        [JsonIgnore]
+        public List<UserCollectionFolder> CollectionFolders { get; set; } = [];
+
+        [JsonIgnore]
+        public List<UserCollectionField> CollectionFields { get; set; } = [];
+
+        [JsonIgnore]
+        public List<Want> Wants { get; set; } = [];
     }
 }

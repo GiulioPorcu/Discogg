@@ -1,6 +1,6 @@
 ﻿using Application.Events;
-using Application.Models;
 using Application.Properties;
+using Discogs.API;
 
 namespace Application.Services
 {

@@ -1,5 +1,4 @@
-﻿using Application.Models;
-using Application.Properties;
+﻿using Discogs.API;
 
 namespace Application.Services
 {
@@ -48,20 +47,50 @@ namespace Application.Services
             {
                 string uri = DiscogsService.AssembleUri($"/users/{name}");
 
-                using HttpResponseMessage response = await this._discogsService
-                    .DoRequestAsync(HttpMethod.Get, uri, content: null, ct)
-                    ?? throw new Exception(Messages.WebRequestFailed);
+                if (await this._discogsService.DoGetRequestAsync(uri, ct) is HttpResponseMessage userResponse)
+                {
+                    using (userResponse)
+                    {
+                        if (userResponse.IsSuccessStatusCode && await this._serializationService.DeserializeAsync<User>(userResponse, ct) is User user)
+                        {
+                            user.Listings = await this.Hydrate<List<Listing>>(user.InventoryUrl, ct) ?? [];
+                            user.CollectionFolders = await this.Hydrate<List<UserCollectionFolder>>(user.CollectionFoldersUrl, ct) ?? [];
+                            user.CollectionFields = await this.Hydrate<List<UserCollectionField>>(user.CollectionFieldsUrl, ct) ?? [];
 
-                return response.IsSuccessStatusCode &&
-                       await this._serializationService.DeserializeAsync<User>(response, ct) is User user
-                    ? user
-                    : null;
+                            return user;
+                        }
+                    }
+                }
+
+                return null;
             }
             catch (Exception exception)
             {
                 this.OnError?.Invoke(this, exception.Message);
                 return null;
             }
+        }
+
+        public async Task<T?> Hydrate<T>(string? url, CancellationToken ct)
+        {
+            if (String.IsNullOrWhiteSpace(url))
+            {
+                // TODO localize
+                throw new Exception("No valid url");
+            }
+
+            if (await this._discogsService.DoGetRequestAsync(url, ct) is HttpResponseMessage response)
+            {
+                using (response)
+                {
+                    if (response.IsSuccessStatusCode && await this._serializationService.DeserializeAsync<T>(response, ct) is T collection)
+                    {
+                        return collection;
+                    }
+                }
+            }
+
+            return default;
         }
     }
 }

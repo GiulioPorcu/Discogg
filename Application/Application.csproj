@@ -20,6 +20,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\Discogs.API\Discogs.API.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Compile Update="Properties\Messages.de.Designer.cs">
 			<DependentUpon>Messages.de.resx</DependentUpon>
 			<DesignTime>True</DesignTime>

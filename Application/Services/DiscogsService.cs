@@ -95,5 +95,8 @@ namespace Application.Services
                 return null;
             }
         }
+
+        public async Task<HttpResponseMessage?> DoGetRequestAsync(string uriString, CancellationToken ct = default)
+            => await this.DoRequestAsync(HttpMethod.Get, uriString, content: null, ct);
     }
 }
