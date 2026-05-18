@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discogs.API.Core", "Discogs.API\Discogs.API.Core.csproj", "{04329B1D-AA50-4801-8693-D6F69FC6C2BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discogs.API.Tests", "Discogs.API.Tests\Discogs.API.Tests.csproj", "{6DB287A7-83CC-4F89-8227-15D129E18B8B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discogs.API.Services", "Discogs.API.Services\Discogs.API.Services.csproj", "{33C59A26-E367-42DA-A7F4-5C6662964783}"
 EndProject
 Global
@@ -25,10 +23,6 @@ Global
 		{04329B1D-AA50-4801-8693-D6F69FC6C2BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04329B1D-AA50-4801-8693-D6F69FC6C2BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04329B1D-AA50-4801-8693-D6F69FC6C2BF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6DB287A7-83CC-4F89-8227-15D129E18B8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6DB287A7-83CC-4F89-8227-15D129E18B8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6DB287A7-83CC-4F89-8227-15D129E18B8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6DB287A7-83CC-4F89-8227-15D129E18B8B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{33C59A26-E367-42DA-A7F4-5C6662964783}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{33C59A26-E367-42DA-A7F4-5C6662964783}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33C59A26-E367-42DA-A7F4-5C6662964783}.Release|Any CPU.ActiveCfg = Release|Any CPU
