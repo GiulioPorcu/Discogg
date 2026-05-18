@@ -1,5 +1,6 @@
 ﻿using Discogs.API.Services.Events;
 using Microsoft.Extensions.Logging;
+using System.Reflection;
 
 namespace Discogs.API.Services
 {
@@ -7,13 +8,7 @@ namespace Discogs.API.Services
     /// Provides low‑level HTTP request handling for communicating with the Discogs API,
     /// including URI construction, request execution, and request lifecycle events.
     /// </summary>
-    /// <param name="client">
-    /// The <see cref="HttpClient"/> instance used to send HTTP requests.
-    /// </param>
-    /// <param name="logger">
-    /// The <see cref="ILogger{TCategoryName}"/> instance used for logging.
-    /// </param>
-    public class DiscogsService(HttpClient client, ILogger<DiscogsService>? logger = null)
+    public class DiscogsService
     {
         /// <summary>
         /// The base URI for all Discogs API endpoints.
@@ -41,8 +36,30 @@ namespace Discogs.API.Services
         /// </summary>
         public event EventHandler<RequestCompletedEventArgs>? OnRequestCompleted;
 
-        private readonly HttpClient _client = client;
-        private readonly ILogger<DiscogsService>? _logger = logger;
+        private readonly HttpClient _client;
+        private readonly ILogger<DiscogsService>? _logger;
+
+        /// <summary>
+        /// Provides low‑level HTTP request handling for communicating with the Discogs API,
+        /// including URI construction, request execution, and request lifecycle events.
+        /// </summary>
+        /// <param name="client">
+        /// The <see cref="HttpClient"/> instance used to send HTTP requests.
+        /// </param>
+        /// <param name="logger">
+        /// The <see cref="ILogger{TCategoryName}"/> instance used for logging.
+        /// </param>
+        public DiscogsService(HttpClient client, ILogger<DiscogsService>? logger = null)
+        {
+            this._client = client;
+            this._logger = logger;
+
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            string name = assembly.GetName().Name ?? String.Empty;
+            string versionNumber = assembly.GetName().Version?.ToString() ?? String.Empty;
+
+            this._client.DefaultRequestHeaders.UserAgent.ParseAdd($"{name}/{versionNumber}");
+        }
 
         /// <summary>
         /// Assembles a fully qualified Discogs API URI using the specified route
