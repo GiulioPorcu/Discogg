@@ -13,7 +13,7 @@ namespace Discogs.API.Core
         [JsonPropertyName("id")]
         public int? Id { get; set; }
 
-        /// <summary>
+        /// <summary> 
         /// Gets or sets the resource type (e.g., release, master, artist, label).
         /// </summary>
         [JsonPropertyName("type")]
@@ -200,7 +200,7 @@ namespace Discogs.API.Core
         public float? CommunityRating { get; set; }
 
         /// <summary>
-        /// Gets or sets the rating count.
+        /// Gets or sets the average community rating value.
         /// </summary>
         [JsonPropertyName("rating")]
         public float? Rating { get; set; }

@@ -13,7 +13,7 @@ namespace Discogs.API.Core
         [JsonPropertyName("name")]
         public string? Name { get; set; }
 
-        /// <summary>
+        /// <summary> 
         /// Gets or sets the catalog number assigned by the label.
         /// </summary>
         [JsonPropertyName("catno")]
@@ -98,7 +98,7 @@ namespace Discogs.API.Core
         public string? ReleasesUrl { get; set; }
 
         /// <summary>
-        /// Gets or sets the resource URL for releases.
+        /// Gets or sets the API resource URL for the label's releases.
         /// </summary>
         [JsonPropertyName("releases_resource_url")]
         public string? ReleasesResourceUrl { get; set; }

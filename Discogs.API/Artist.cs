@@ -32,7 +32,7 @@ namespace Discogs.API.Core
         public string? Role { get; set; }
 
         /// <summary>
-        /// Gets or sets the track numbers associated with the artist.
+        /// Gets or sets the track position information for the artist in a release context.
         /// </summary>
         [JsonPropertyName("tracks")]
         public string? Tracks { get; set; }
@@ -86,13 +86,13 @@ namespace Discogs.API.Core
         public string[]? NameVariations { get; set; }
 
         /// <summary>
-        /// Gets or sets the real name of the artist.
+        /// Gets or sets the artist's real name, if different from their display name.
         /// </summary>
         [JsonPropertyName("realname")]
         public string? RealName { get; set; }
 
         /// <summary>
-        /// Gets or sets the associated label information.
+        /// Gets or sets the labels associated with the artist.
         /// </summary>
         [JsonPropertyName("labels")]
         public string[]? Labels { get; set; }

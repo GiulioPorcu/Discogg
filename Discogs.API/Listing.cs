@@ -13,7 +13,7 @@ namespace Discogs.API.Core
         [JsonPropertyName("id")]
         public int? Id { get; set; }
 
-        /// <summary>
+        /// <summary> 
         /// Gets or sets the API resource URL for this listing.
         /// </summary>
         [JsonPropertyName("resource_url")]
@@ -116,7 +116,7 @@ namespace Discogs.API.Core
         public string? SaleNoteToBuyer { get; set; }
 
         /// <summary>
-        /// Gets or sets the offer status.
+        /// Gets or sets whether the seller accepts offers on the listing.
         /// </summary>
         [JsonPropertyName("allow_offers")]
         public bool? AllowOffers { get; set; }
@@ -212,7 +212,7 @@ namespace Discogs.API.Core
         public Address? ShippingAddress { get; set; }
 
         /// <summary>
-        /// Gets or sets the additional address lines.
+        /// Gets or sets the additional address information for the order.
         /// </summary>
         [JsonPropertyName("address")]
         public string? Address { get; set; }
@@ -236,13 +236,13 @@ namespace Discogs.API.Core
         public OrderItem[]? Items { get; set; }
 
         /// <summary>
-        /// Gets or sets the total price.
+        /// Gets or sets the total order value as a string.
         /// </summary>
         [JsonPropertyName("total")]
         public string? Total { get; set; }
 
         /// <summary>
-        /// Gets or sets the combined total with shipping.
+        /// Gets or sets the combined total including shipping as a string.
         /// </summary>
         [JsonPropertyName("combined_total")]
         public string? CombinedTotal { get; set; }
@@ -290,7 +290,7 @@ namespace Discogs.API.Core
         public string? UspsTrackingUrl { get; set; }
 
         /// <summary>
-        /// Gets or sets the estimated shipping date.
+        /// Gets or sets the estimated ship date for the order.
         /// </summary>
         [JsonPropertyName("ship_date")]
         public string? ShipDate { get; set; }

@@ -27,7 +27,7 @@ namespace Discogs.API.Core
         public string? Uri { get; set; }
 
         /// <summary>
-        /// Gets or sets the username.
+        /// Gets or sets the user's username.
         /// </summary>
         [JsonPropertyName("username")]
         public string? UserName { get; set; }
@@ -74,6 +74,9 @@ namespace Discogs.API.Core
         [JsonPropertyName("num_pending")]
         public int? NumberOfSubmissionsPending { get; set; }
 
+        /// <summary>
+        /// Gets or sets the number of wantlist items.
+        /// </summary>
         [JsonPropertyName("num_wantlist")]
         public int? NumberOfWantListItems { get; set; }
 

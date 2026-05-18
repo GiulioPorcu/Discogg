@@ -3,8 +3,8 @@
 namespace Discogs.API.Core
 {
     /// <summary>
-    /// Represents detailed metadata for a release, including identifiers, images,
-    /// artists, tracks, pricing, and related URLs.
+    /// Represents the master release entity in Discogs, which serves as the
+    /// parent record grouping multiple release versions together.
     /// </summary>
     public class MasterRelease
     {
