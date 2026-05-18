@@ -1,6 +1,6 @@
+using Discogs.API.Services;
+using Discogs.API.Tests.Networking;
 using System.Net;
-using Application.Services;
-using Microsoft.Extensions.Logging;
 
 namespace Discogs.API.Tests
 {
@@ -17,7 +17,7 @@ namespace Discogs.API.Tests
         [TestMethod]
         public void AssembleUri_WithQueryParams_AppendsQueryString()
         {
-            var queryParams = new Dictionary<string, string>
+            Dictionary<string, string> queryParams = new()
             {
                 { "page", "1" },
                 { "per_page", "25" }
@@ -25,14 +25,14 @@ namespace Discogs.API.Tests
 
             string result = DiscogsService.AssembleUri("/database/search", queryParams);
 
-            StringAssert.Contains(result, "page=1");
-            StringAssert.Contains(result, "per_page=25");
+            Assert.Contains("page=1", result);
+            Assert.Contains("per_page=25", result);
         }
 
         [TestMethod]
         public void AssembleUri_WithNullValueQueryParam_ExcludesParam()
         {
-            var queryParams = new Dictionary<string, string>
+            Dictionary<string, string> queryParams = new()
             {
                 { "page", null! },
                 { "per_page", "25" }
@@ -40,13 +40,13 @@ namespace Discogs.API.Tests
 
             string result = DiscogsService.AssembleUri("/database/search", queryParams);
 
-            StringAssert.Contains(result, "per_page=25");
+            Assert.Contains("per_page=25", result);
         }
 
         [TestMethod]
         public void AssembleUri_WithWhitespaceValueQueryParam_ExcludesParam()
         {
-            var queryParams = new Dictionary<string, string>
+            Dictionary<string, string> queryParams = new()
             {
                 { "page", "   " },
                 { "per_page", "25" }
@@ -54,7 +54,7 @@ namespace Discogs.API.Tests
 
             string result = DiscogsService.AssembleUri("/database/search", queryParams);
 
-            StringAssert.Contains(result, "per_page=25");
+            Assert.Contains("per_page=25", result);
         }
     }
 
@@ -64,11 +64,11 @@ namespace Discogs.API.Tests
         [TestMethod]
         public async Task DoRequestAsync_OnSuccess_ReturnsResponse()
         {
-            using var handler = new MockHttpMessageHandler(HttpStatusCode.OK);
-            using var client = new HttpClient(handler);
-            var service = new DiscogsService(client);
+            using MockHttpMessageHandler handler = new(HttpStatusCode.OK);
+            using HttpClient client = new(handler);
+            DiscogsService service = new(client);
 
-            var response = await service.DoRequestAsync(HttpMethod.Get, "https://api.discogs.com/test", null, CancellationToken.None);
+            HttpResponseMessage? response = await service.DoRequestAsync(HttpMethod.Get, "https://api.discogs.com/test", null, CancellationToken.None);
 
             Assert.IsNotNull(response);
             Assert.AreEqual(HttpStatusCode.OK, response!.StatusCode);
@@ -77,11 +77,11 @@ namespace Discogs.API.Tests
         [TestMethod]
         public async Task DoRequestAsync_OnServerError_RetriesAndReturnsNull()
         {
-            using var handler = new MockHttpMessageHandler(HttpStatusCode.InternalServerError);
-            using var client = new HttpClient(handler);
-            var service = new DiscogsService(client);
+            using MockHttpMessageHandler handler = new(HttpStatusCode.InternalServerError);
+            using HttpClient client = new(handler);
+            DiscogsService service = new(client);
 
-            var response = await service.DoRequestAsync(HttpMethod.Get, "https://api.discogs.com/test", null, CancellationToken.None);
+            HttpResponseMessage? response = await service.DoRequestAsync(HttpMethod.Get, "https://api.discogs.com/test", null, CancellationToken.None);
 
             Assert.IsNull(response);
             Assert.AreEqual(3, handler.CallCount);
@@ -90,32 +90,14 @@ namespace Discogs.API.Tests
         [TestMethod]
         public async Task DoRequestAsync_OnRateLimit_RetriesMultipleTimes()
         {
-            using var handler = new MockHttpMessageHandler((HttpStatusCode)429);
-            using var client = new HttpClient(handler);
-            var service = new DiscogsService(client);
+            using MockHttpMessageHandler handler = new((HttpStatusCode)429);
+            using HttpClient client = new(handler);
+            DiscogsService service = new(client);
 
-            var response = await service.DoRequestAsync(HttpMethod.Get, "https://api.discogs.com/test", null, CancellationToken.None);
+            HttpResponseMessage? response = await service.DoRequestAsync(HttpMethod.Get, "https://api.discogs.com/test", null, CancellationToken.None);
 
             Assert.IsNull(response);
             Assert.AreEqual(3, handler.CallCount);
-        }
-    }
-
-    internal sealed class MockHttpMessageHandler : HttpMessageHandler
-    {
-        private readonly HttpStatusCode _statusCode;
-        public int CallCount { get; private set; }
-
-        public MockHttpMessageHandler(HttpStatusCode statusCode)
-        {
-            _statusCode = statusCode;
-        }
-
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-        {
-            CallCount++;
-            var response = new HttpResponseMessage(_statusCode);
-            return Task.FromResult(response);
         }
     }
 }

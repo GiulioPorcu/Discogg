@@ -42,8 +42,8 @@ namespace Application.Services
         /// <param name="baseColor">The base color used to generate derived palette values.</param>
         private void ApplyDerivedColors(MudColor baseColor)
         {
-            PaletteLight light = this.CurrentTheme.PaletteLight;
-            PaletteDark dark = this.CurrentTheme.PaletteDark;
+            Palette light = this.CurrentTheme.PaletteLight;
+            Palette dark = this.CurrentTheme.PaletteDark;
 
             if (baseColor?.ToRgba() is string baseRgba)
             {
@@ -115,7 +115,7 @@ namespace Application.Services
         /// </summary>
         public MudTheme CurrentTheme { get; private set; } = new()
         {
-            PaletteLight = new()
+            PaletteLight = new PaletteLight()
             {
                 Primary = "#09F0AA",
                 Secondary = "#4C82FB",
@@ -141,7 +141,7 @@ namespace Application.Services
                 Error = "#E53935",
                 Info = "#1E88E5"
             },
-            PaletteDark = new()
+            PaletteDark = new PaletteDark()
             {
                 Primary = "#09F0AA",
                 Secondary = "#4C82FB",

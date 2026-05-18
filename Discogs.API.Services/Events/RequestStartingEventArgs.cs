@@ -1,9 +1,7 @@
-﻿using System.Net;
-
-namespace Application.Events
+﻿namespace Discogs.API.Services.Events
 {
     /// <summary>
-    /// Provides data for a completed HTTP request.
+    /// Provides data for an HTTP request that is starting.
     /// </summary>
     /// <param name="method">
     /// The HTTP method used for the request.
@@ -11,10 +9,7 @@ namespace Application.Events
     /// <param name="uri">
     /// The request URI.
     /// </param>
-    /// <param name="statusCode">
-    /// The resulting HTTP status code.
-    /// </param>
-    public class RequestCompletedEventArgs(HttpMethod? method, Uri? uri, HttpStatusCode? statusCode) : EventArgs
+    public class RequestStartingEventArgs(HttpMethod? method, Uri? uri) : EventArgs
     {
         /// <summary>
         /// Gets the HTTP method used for the request.
@@ -25,10 +20,5 @@ namespace Application.Events
         /// Gets the request URI.
         /// </summary>
         public Uri? Uri { get; } = uri;
-
-        /// <summary>
-        /// Gets the HTTP status code returned by the request.
-        /// </summary>
-        public HttpStatusCode? StatusCode { get; } = statusCode;
     }
 }

@@ -178,7 +178,7 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Where do I get a token from?.
+        ///   Looks up a localized string similar to Where do I get a personal access token?.
         /// </summary>
         internal static string WhereTokenFrom {
             get {

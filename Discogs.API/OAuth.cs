@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Discogs.API
+namespace Discogs.API.Core
 {
     /// <summary>
     /// Represents OAuth authentication metadata returned by the API,

@@ -1,9 +1,9 @@
 using System.Text.Json.Serialization;
 
-namespace Discogs.API
+namespace Discogs.API.Core
 {
     /// <summary>
-    /// Represents a paginated response from the Discogs API.
+    /// Represents a paginated response from the Discogs.API.Core.
     /// </summary>
     public class Pagination
     {

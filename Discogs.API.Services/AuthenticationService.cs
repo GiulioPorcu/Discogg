@@ -1,9 +1,8 @@
-using Application.Events;
-using Application.Properties;
-using Discogs.API;
+using Discogs.API.Core;
+using Discogs.API.Services.Events;
 using Microsoft.Extensions.Logging;
 
-namespace Application.Services
+namespace Discogs.API.Services
 {
     /// <summary>
     /// Provides authentication functionality for validating Discogs API tokens,
@@ -61,10 +60,10 @@ namespace Application.Services
             this.User = null;
             this.OnAuthenticationChanged?.Invoke(this, new AuthenticationChangedEventArgs(null));
 
-            if (string.IsNullOrWhiteSpace(token))
+            if (String.IsNullOrWhiteSpace(token))
             {
                 this._logger?.LogWarning("Authentication attempt with empty token");
-                this.OnError?.Invoke(this, Messages.InvalidApiToken);
+                this.OnError?.Invoke(this, "Authentication attempt with empty token");
                 return null;
             }
 
@@ -76,13 +75,13 @@ namespace Application.Services
                 if (response is null)
                 {
                     this._logger?.LogError("Web request failed");
-                    this.OnError?.Invoke(this, Messages.WebRequestFailed);
+                    this.OnError?.Invoke(this, "Web request failed");
                     return null;
                 }
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var user = await serializationService.DeserializeAsync<OAuth>(response, ct);
+                    OAuth? user = await serializationService.DeserializeAsync<OAuth>(response, ct);
                     if (user is OAuth oauthUser)
                     {
                         oauthUser.Token = token;

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Discogs.API
+namespace Discogs.API.Core
 {
     /// <summary>
     /// Represents a Discogs user account with profile details, activity statistics,

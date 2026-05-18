@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Application.Services
+namespace Discogs.API.Services
 {
     /// <summary>
     /// Provides JSON deserialization functionality for HTTP responses,

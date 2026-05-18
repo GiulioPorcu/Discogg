@@ -157,6 +157,6 @@
     <value>Welcome to Discogg</value>
   </data>
   <data name="WhereTokenFrom" xml:space="preserve">
-    <value>Where do I get a token from?</value>
+    <value>Where do I get a personal access token?</value>
   </data>
 </root>

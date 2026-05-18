@@ -1,6 +1,7 @@
-﻿using Application.Events;
-using Application.Properties;
-using Discogs.API;
+﻿using Application.Properties;
+using Discogs.API.Core;
+using Discogs.API.Services;
+using Discogs.API.Services.Events;
 using System.Reflection;
 
 namespace Application.Services

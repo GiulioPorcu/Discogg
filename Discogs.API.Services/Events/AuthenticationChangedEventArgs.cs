@@ -1,7 +1,6 @@
-﻿
-using Discogs.API;
+﻿using Discogs.API.Core;
 
-namespace Application.Events
+namespace Discogs.API.Services.Events
 {
     /// <summary>
     /// Provides data for authentication state changes.

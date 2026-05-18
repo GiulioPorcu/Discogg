@@ -1,7 +1,7 @@
-﻿using Application.Events;
+﻿using Discogs.API.Services.Events;
 using Microsoft.Extensions.Logging;
 
-namespace Application.Services
+namespace Discogs.API.Services
 {
     /// <summary>
     /// Provides low‑level HTTP request handling for communicating with the Discogs API,
@@ -53,15 +53,15 @@ namespace Application.Services
         /// <returns>A complete request URI as a string.</returns>
         public static string AssembleUri(string? route, Dictionary<string, string>? queryParams = null)
         {
-            UriBuilder uriBuilder = new($"{BASE_URI}{route ?? string.Empty}");
+            UriBuilder uriBuilder = new($"{BASE_URI}{route ?? String.Empty}");
 
             if (queryParams is null || queryParams.Count <= 0)
             {
                 return uriBuilder.Uri.ToString();
             }
 
-            string query = string.Join("&", queryParams
-                .Where(pair => !string.IsNullOrWhiteSpace(pair.Value))
+            string query = String.Join("&", queryParams
+                .Where(pair => !String.IsNullOrWhiteSpace(pair.Value))
                 .Select(pair => $"{pair.Key}={Uri.EscapeDataString(pair.Value!)}"));
 
             uriBuilder.Query = query;

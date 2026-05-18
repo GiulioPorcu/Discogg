@@ -1,6 +1,6 @@
-﻿using Discogs.API;
+﻿using Discogs.API.Core;
 
-namespace Application.Services
+namespace Discogs.API.Services
 {
     /// <summary>
     /// Provides access to Discogs user information, including retrieval of user profiles
